@@ -60,7 +60,7 @@
 		"name":"Mock",
 		"optional":false,
 		"url":"http://www.voidspace.org.uk/python/mock",
-		"cat":["tests", "rtd"],
+		"cat":["tests"],
 		"ver":{
 			"py26":">=1.0.1",
 			"py27":">=1.0.1"
@@ -157,7 +157,7 @@
 		"name":"Pmisc",
 		"optional":false,
 		"url":"http://pmisc.readthedocs.org",
-		"cat":["main"],
+		"cat":["main", "rtd"],
 		"ver":">=1.0.0",
 		"pos":17
 	},
@@ -165,7 +165,7 @@
 		"name":"Ptrie",
 		"optional":false,
 		"url":"http://ptrie.readthedocs.org",
-		"cat":["main"],
+		"cat":["main", "rtd"],
 		"ver":">=1.0.0",
 		"pos":18
 	}
