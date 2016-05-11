@@ -2,7 +2,7 @@
 # build_docs.py
 # Copyright (c) 2013-2016 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,F0401,R0914,W0141
+# pylint: disable=C0111,F0401,R0914,R0915,W0141
 
 # Standard library imports
 from __future__ import print_function
@@ -27,7 +27,7 @@ VALID_MODULES = ['pexdoc']
 ###
 def build_pkg_docs(args):
     """ Build documentation """
-    # pylint: disable=R0912,R0915
+    # pylint: disable=R0912
     debug = False
     retcode = 0
     pkg_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -285,6 +285,7 @@ def generate_top_level_readme(pkg_dir):
         lines = [item.rstrip() for item in fobj.readlines()]
     ref1_regexp = re.compile('.*:py:mod:`(.+) <pexdoc.(.+)>`.*')
     ref2_regexp = re.compile('.*:py:mod:`pexdoc.(.+)`.*')
+    ref3_regexp = re.compile(r'.*:ref:`(.+?)(\s+<.+>)*`.*')
     rst_cmd_regexp = re.compile('^\\s*.. \\S+::.*')
     indent_regexp = re.compile('^(\\s*)\\S+')
     ret = []
@@ -292,6 +293,7 @@ def generate_top_level_readme(pkg_dir):
     for line in lines:
         match1 = ref1_regexp.match(line)
         match2 = ref2_regexp.match(line)
+        match3 = ref3_regexp.match(line)
         if autofunction:
             match = indent_regexp.match(line)
             if (not match) or (match and len(match.group(1)) == 0):
@@ -313,6 +315,17 @@ def generate_top_level_readme(pkg_dir):
             mname = match2.group(1)
             line = line.replace(
                 ':py:mod:`pexdoc.{mname}`'.format(mname=mname), mname
+            )
+            ret.append(line)
+        elif match3:
+            # Remove cross-references
+            mname = match3.group(1)
+            target = match3.group(2)
+            line = line.replace(
+                ':ref:`{mname}{target}`'.format(
+                    mname=mname,
+                    target='' if target is None else target
+                ), mname
             )
             ret.append(line)
         elif line.lstrip().startswith('.. include::'):

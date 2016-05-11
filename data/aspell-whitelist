@@ -179,6 +179,7 @@ const
 consts
 contextmanager
 cOnTiNuOuS
+ContractCheckers
 ContractNotRespected
 ContractSyntaxError
 copyfile
@@ -770,6 +771,7 @@ mycontract
 mydecorator
 MyException
 myfile
+myfunc
 mynumber
 MySource
 mystring
