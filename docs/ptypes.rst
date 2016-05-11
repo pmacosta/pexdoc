@@ -13,11 +13,12 @@ The pseudo-types defined below can be used in contracts of the
 
     .. code-block:: python
 
+        >>> from __future__ import print_function
         >>> import pexdoc
         >>> from pexdoc.ptypes import non_negative_integer
         >>> @pexdoc.pcontracts.contract(num='non_negative_integer')
         ... def myfunc(num):
-        ...     print 'Number received: '+str(num)
+        ...     print('Number received: '+str(num))
         ...
         >>> myfunc(10)
         Number received: 10
