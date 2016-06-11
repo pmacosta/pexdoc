@@ -5,6 +5,8 @@
 Changelog
 =========
 
+* 1.0.5 [2016-06-11]: Minor documentation build bug fix
+
 * 1.0.4 [2016-05-13]: Documentation update
 
 * 1.0.3 [2016-05-11]: Documentation update
