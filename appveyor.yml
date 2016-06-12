@@ -47,7 +47,16 @@ install:
   - set MAIN_REQUIREMENTS_FILE=%REPO_DIR%\requirements\main_%INTERP%.pip
   - set TESTS_REQUIREMENTS_FILE=%REPO_DIR%\requirements\tests_%INTERP%.pip
   - set CITMP=%REPO_DIR%\CITMP
-  - set PYTHONWARNINGS="ignore:a true SSLContext object"
+  # Full Anaconda distribution
+  - set ANAPREFIX=Anaconda2-2.5.0-Windows-x86
+  - set ANAEXE=%ANAPREFIX%.exe
+  - set ANAZIP=%ANAPREFIX%.zip
+  - set ANAURL=https://repo.continuum.io/archive/.winzip/%ANAZIP%
+  # Miniconda distribution
+  - set ANAPREFIX=Miniconda-latest-Windows-x86
+  - set ANAEXE=%ANAPREFIX%.exe
+  - set ANAZIP=%ANAEXE%
+  - set ANAURL=https://repo.continuum.io/miniconda/%ANAZIP%
   - if not exist "%CITMP%" mkdir %CITMP%
   - echo "PYTHONCMD=%PYTHONCMD%"
   - echo "PIPCMD=%PIPCMD%"
@@ -66,22 +75,29 @@ install:
   - echo "COV_FILE=%COV_FILE%"
   - echo "MAIN_REQUIREMENTS_FILE=%MAIN_REQUIREMENTS_FILE%"
   - echo "TESTS_REQUIREMENTS_FILE=%TESTS_REQUIREMENTS_FILE%"
-
+  - echo "ANAPREFIX=%ANAPREFIX%"
+  - echo "ANAZIP=%ANAZIP%"
+  - echo "ANAURL=%%ANAURL"
+  - echo "ANAEXE=%ANAEXE%"
   ###
   # Install tools and dependencies of package dependencies
   ###
-  - ps: wget https://repo.continuum.io/archive/.winzip/Anaconda2-2.4.0-Windows-x86.zip -OutFile anaconda.zip
-  - 7z x anaconda.zip -o".\anaconda\" -y > nul
-  - ls .\anaconda\
-  - .\anaconda\Anaconda2-2.4.0-Windows-x86.exe /S /D=C:\Anaconda
+  # Full Anaconda distribution
+  # - ps: wget $env:ANAURL -OutFile $env:ANAZIP
+  # - 7z x %ANAZIP% -o".\anaconda\" -y > nul
+  # - dir .\anaconda\
+  # - .\anaconda\%ANAEXE% /S /D=C:\Anaconda
+  # Miniconda distribution
+  - ps: wget $env:ANAURL -OutFile $env:ANAEXE
+  - .\%ANAEXE% /S /D=C:\Anaconda
   - set PATH=C:\\Anaconda;C:\\Anaconda\\Scripts;%PATH%
   - conda update -y conda
-  - conda create -y --name %INTERP% python=%PYVER% numpy
+  - conda create -y --name %INTERP% python=%PYVER% pip numpy
   - activate %INTERP%
   ###
   # sbin/winsetup2.bat file
   ###
-  - pip install --disable-pip-version-check --user --upgrade pip setuptools wheel
+  - pip install --disable-pip-version-check --user --upgrade setuptools wheel
   ###
   # Install package dependencies
   ###

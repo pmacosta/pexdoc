@@ -13,7 +13,7 @@ import copy, os, pytest, pexdoc
 def trace_module(no_print=True):
     """ Trace my_module exceptions """
     pwd = os.path.dirname(__file__)
-    script_name = repr(os.path.join(pwd, 'test_my_module.py'))
+    script_name = os.path.join(pwd, 'test_my_module.py')
     with pexdoc.ExDocCxt() as exdoc_obj:
         if pytest.main('-s -vv -x {0}'.format(script_name)):
             raise RuntimeError(

@@ -5,6 +5,9 @@
 Changelog
 =========
 
+* 1.0.6 [2016-06-13]: Fixed Windows continuous integration
+  failure
+
 * 1.0.5 [2016-06-11]: Minor documentation build bug fix
 
 * 1.0.4 [2016-05-13]: Documentation update
