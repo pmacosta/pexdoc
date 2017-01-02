@@ -5,6 +5,9 @@
 Changelog
 =========
 
+* 1.0.7 [2017-01-02]: Suppressed deprecation warnings for
+  Python 2.6
+
 * 1.0.6 [2016-06-13]: Fixed Windows continuous integration
   failure
 
