@@ -41,7 +41,7 @@
 		"name":"Docutils",
 		"optional":false,
 		"url":"http://docutils.sourceforge.net/docs",
-		"cat":["tests"],
+		"cat":["main"],
 		"ver":"<=0.12",
 		"pos":0
 	},
