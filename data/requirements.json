@@ -42,7 +42,7 @@
 		"optional":false,
 		"url":"http://docutils.sourceforge.net/docs",
 		"cat":["tests"],
-		"ver":">=0.12",
+		"ver":"<=0.12",
 		"pos":4
 	},
 	"funcsigs":{
@@ -118,7 +118,7 @@
 		"optional":false,
 		"url":"http://sphinx-doc.org",
 		"cat":["docs", "rtd"],
-		"ver":">=1.2.3",
+		"ver":">=1.2.3,<=1.4.8",
 		"pos":12
 	},
 	"sphinxcontrib-inlinesyntaxhighlight":{

@@ -1,5 +1,5 @@
 # exh.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0103,C0111,C0302,C0413,E0611,E1101,F0401,R0201,R0204,R0903
 # pylint: disable=R0912,R0914,R0915,W0108,W0122,W0123,W0212,W0612,W0631,W0640

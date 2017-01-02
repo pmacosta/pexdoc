@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # gen_req_files.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111
 
@@ -121,7 +121,7 @@ def gen_req_files(freeze_ver=False):
     pkgdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     reqdir = os.path.join(pkgdir, 'requirements')
     fnames = []
-    for cat in sorted(odict.keys()):
+    for cat in sorted(odict):
         odict[cat] = [item for item in odict[cat] if item]
         fname = os.path.join(reqdir, '{0}.pip'.format(cat))
         fnames.append(fname)

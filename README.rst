@@ -1,5 +1,5 @@
 .. README.rst
-.. Copyright (c) 2013-2016 Pablo Acosta-Serafini
+.. Copyright (c) 2013-2017 Pablo Acosta-Serafini
 .. See LICENSE for details
 
 
@@ -160,7 +160,7 @@ Contributing
 
     * `Decorator`_ (3.4.2 or newer)
 
-    * `Docutils`_ (0.12 or newer)
+    * `Docutils`_ (0.12 or older)
 
     * `Funcsigs`_ (Python 2.x only, 0.4 or newer)
 
@@ -185,7 +185,7 @@ Contributing
 
     * `ReadTheDocs Sphinx theme`_ (0.1.9 or newer)
 
-    * `Sphinx`_ (1.2.3 or newer)
+    * `Sphinx`_ (1.2.3 or newer and 1.4.8 or older)
 
     * `Tox`_ (1.9.0 or newer)
 
@@ -339,7 +339,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2016 Pablo Acosta-Serafini
+Copyright (c) 2013-2017 Pablo Acosta-Serafini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

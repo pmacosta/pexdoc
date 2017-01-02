@@ -1,7 +1,8 @@
 # pinspect.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0103,C0111,E0611,F0401,R0201,R0903,R0913,R0915,W0104,W0212,W0232,W0612,W0613,W0621
+# pylint: disable=C0103,C0111,C0413,E0611,F0401
+# pylint: disable=R0201,R0903,R0913,R0915,W0104,W0212,W0232,W0612,W0613,W0621
 
 # Standard library imports
 from __future__ import print_function

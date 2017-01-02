@@ -1,7 +1,8 @@
 # pcontracts.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0103,C0111,E0102,E0611,E1101,F0401,R0912,R0914,W0212,W0613
+# pylint: disable=C0103,C0111,C0413,
+# pylint: disable=E0102,E0611,E1101,F0401,R0912,R0914,W0212,W0613
 
 # Standard library imports
 import inspect

@@ -1,7 +1,11 @@
 # compat2.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,W0122,W0613
+
+
+# Standard library imports
+import warnings
 
 
 ###
@@ -14,7 +18,9 @@ def _ex_type_str(exobj):
 
 def _get_ex_msg(obj):
     """ Get exception message """
-    return obj.value.message if hasattr(obj, 'value') else obj.message
+    with warnings.catch_warnings():
+        warnings.simplefilter('ignore')
+        return obj.value.message if hasattr(obj, 'value') else obj.message
 
 
 def _get_func_code(obj):

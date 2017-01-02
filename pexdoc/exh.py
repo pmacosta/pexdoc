@@ -1,7 +1,7 @@
 # exh.py
-# Copyright (c) 2013-2016 Pablo Acosta-Serafini
+# Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,C0411,E0012,E0611,E1101,E1103,F0401
+# pylint: disable=C0111,C0411,C0413,E0012,E0012,E0611,E1101,E1103,F0401
 # pylint: disable=R0201,R0912,R0913,R0914,R0915,W0122,W0212,W0613,W0631
 
 # Standard library imports
@@ -792,7 +792,7 @@ class ExHandle(object):
         """
         ret = []
         fex_dict = self._flatten_ex_dict()
-        for key in sorted(fex_dict.keys()):
+        for key in sorted(fex_dict):
             # Exception name and details
             rstr = []
             extype = _ex_type_str(fex_dict[key]['type'])
@@ -1124,7 +1124,7 @@ class ExHandle(object):
         prop_actions_dicts = {}
         for prop_name, prop_obj in class_props:
             prop_dict = {'fdel':None, 'fget':None, 'fset':None}
-            for action in prop_dict.keys():
+            for action in prop_dict:
                 action_obj = getattr(prop_obj, action)
                 if action_obj:
                     # Unwrap action object. Contracts match the wrapped
