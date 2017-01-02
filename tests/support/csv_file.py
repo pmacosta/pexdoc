@@ -1,7 +1,7 @@
 # csv_file.py
 # Copyright (c) 2013-2017 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,R0201,R0916,W0105,W0611
+# pylint: disable=C0111,C0411,R0201,R0916,W0105,W0611
 
 # Standard library imports
 import csv
