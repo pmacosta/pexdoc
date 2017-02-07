@@ -160,7 +160,10 @@ Contributing
 
     * `Decorator`_ (3.4.2 or newer)
 
-    * `Docutils`_ (0.12 or older)
+    * `Docutils`_ (Python 2.6: 0.12 or newer and older than 0.13, Python
+      2.7: 0.12 or newer, Python 3.3: 0.12 or newer and older than 0.13,
+      Python 3.4: 0.12 or newer, Python 3.5: 0.12 or newer, Python 3.6:
+      0.12 or newer)
 
     * `Funcsigs`_ (Python 2.x only, 0.4 or newer)
 
@@ -168,9 +171,9 @@ Contributing
 
     * `Mock`_ (Python 2.x only, 1.0.1 or newer)
 
-    * `Pmisc`_ (1.0.0 or newer)
+    * `Pmisc`_ (1.2.1 or newer)
 
-    * `Ptrie`_ (1.0.0 or newer)
+    * `Ptrie`_ (1.0.5 or newer)
 
     * `Py.test`_ (2.7.0 or newer)
 
@@ -185,7 +188,10 @@ Contributing
 
     * `ReadTheDocs Sphinx theme`_ (0.1.9 or newer)
 
-    * `Sphinx`_ (1.2.3 or newer and 1.4.8 or older)
+    * `Sphinx`_ (Python 2.6: 1.2.3 or newer and 1.4.9 or older, Python
+      2.7: 1.5 or newer, Python 3.3: 1.2.3 or newer and 1.4.9 or older,
+      Python 3.4: 1.5 or newer, Python 3.5: 1.5 or newer, Python 3.6:
+      1.5 or newer)
 
     * `Tox`_ (1.9.0 or newer)
 
@@ -297,7 +303,8 @@ Contributing
 	.. code-block:: bash
 
 	    $ ${PMISC_DIR}/sbin/build_docs.py -h
-	    usage: build_docs.py [-h] [-d DIRECTORY]
+	    usage: build_docs.py [-h] [-d DIRECTORY] [-r]
+	                         [-n NUM_CPUS] [-t]
 
 	    Build pexdoc package documentation
 
@@ -306,6 +313,17 @@ Contributing
 	      -d DIRECTORY, --directory DIRECTORY
 	                            specify source file directory
 	                            (default ../pexdoc)
+	      -r, --rebuild         rebuild exceptions documentation.
+	                            If no module name is given all
+	                            modules with auto-generated
+	                            exceptions documentation are
+	                            rebuilt
+	      -n NUM_CPUS, --num-cpus NUM_CPUS
+	                            number of CPUs to use (default: 1)
+	      -t, --test            diff original and rebuilt file(s)
+	                            (exit code 0 indicates file(s) are
+	                            identical, exit code 1 indicates
+	                            file(s) are different)
 
 
 	.. [[[end]]]

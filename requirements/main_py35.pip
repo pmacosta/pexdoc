@@ -1,5 +1,4 @@
-docutils<=0.12
 decorator>=3.4.2
 pycontracts>=1.7.2,!=1.7.7
-pmisc>=1.0.0
-ptrie>=1.0.0
+pmisc>=1.2.1
+ptrie>=1.0.5

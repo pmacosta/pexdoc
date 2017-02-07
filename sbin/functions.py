@@ -15,7 +15,7 @@ import sys
 ###
 # Global variables
 ###
-SUPPORTED_VERS = ['2.6', '2.7', '3.3', '3.4', '3.5']
+SUPPORTED_VERS = ['2.6', '2.7', '3.3', '3.4', '3.5', '3.6']
 
 
 ###
@@ -159,7 +159,7 @@ def load_requirements(pkg_dir, pyver, cat='source'):
     elif cat.lower() == 'testing':
         reqs_files = [
             'tests_py{0}.pip'.format(pyver),
-            'docs.pip',
+            'docs_py{0}.pip'.format(pyver),
         ]
     else:
         raise RuntimeError('Unknown requirements category: {0}'.format(cat))

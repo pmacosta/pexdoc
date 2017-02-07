@@ -2,7 +2,7 @@ decorator>=3.4.2
 funcsigs>=0.4
 pycontracts>=1.7.2,!=1.7.7
 pytest>=2.7.0
-sphinx>=1.2.3,<=1.4.8
+sphinx>=1.5
 sphinxcontrib-inlinesyntaxhighlight>=0.2
-pmisc>=1.0.0
-ptrie>=1.0.0
+pmisc>=1.2.1
+ptrie>=1.0.5
