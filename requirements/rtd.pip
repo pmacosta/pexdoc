@@ -4,5 +4,5 @@ pycontracts>=1.7.2,!=1.7.7
 pytest>=2.7.0
 sphinx>=1.5
 sphinxcontrib-inlinesyntaxhighlight>=0.2
-pmisc>=1.2.1
-ptrie>=1.0.5
+pmisc>=1.2.2
+ptrie>=1.0.6

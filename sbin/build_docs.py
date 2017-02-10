@@ -365,16 +365,25 @@ def generate_top_level_readme(pkg_dir):
     ref1_regexp = re.compile('.*:py:mod:`(.+) <'+PKG_NAME+'.(.+)>`.*')
     ref2_regexp = re.compile('.*:py:mod:`'+PKG_NAME+'.(.+)`.*')
     ref3_regexp = re.compile(r'.*:ref:`(.+?)(\s+<.+>)*`.*')
+    ref4_regexp = re.compile(r'.*:py:class:`(.+?)`.*')
+    ref5_regexp = re.compile(r'.*:py:data:`(.+?)`.*')
     rst_cmd_regexp = re.compile('^\\s*.. \\S+::.*')
     indent_regexp = re.compile('^(\\s*)\\S+')
     ret = []
     autofunction = False
     literalinclude = False
+    remove_block = False
     for line in lines:
         match1 = ref1_regexp.match(line)
         match2 = ref2_regexp.match(line)
         match3 = ref3_regexp.match(line)
-        if autofunction:
+        match4 = ref4_regexp.match(line)
+        match5 = ref5_regexp.match(line)
+        if line.lstrip().startswith('.. [REMOVE STOP]'):
+            remove_block = False
+        elif remove_block:
+            continue
+        elif autofunction:
             match = indent_regexp.match(line)
             if (not match) or (match and len(match.group(1)) == 0):
                 autofunction = False
@@ -383,16 +392,17 @@ def generate_top_level_readme(pkg_dir):
             if line.lstrip().startswith(':lines:'):
                 literalinclude = False
                 lrange = line.lstrip().replace(':lines:', '').strip()
+                mdir = os.path.join('..', 'docs', 'support')
                 tstr = (
-                    '.. docs.support.incfile.incfile(\n'
+                    '.. pmisc.incfile(\n'
                     '..     "{0}",\n'
                     '..     cog.out,\n'
                     '..     "{1}",\n'
-                    '..     None\n'
+                    '..     "'+mdir+'"\n'
                     '.. )'
                 )
                 ret.append('.. [[[cog')
-                ret.append('.. import docs.support.incfile')
+                ret.append('.. import pmisc')
                 ret.append(tstr.format(os.path.basename(fname), lrange))
                 ret.append('.. ]]]')
                 ret.append('.. [[[end]]]')
@@ -424,9 +434,31 @@ def generate_top_level_readme(pkg_dir):
                 ), mname
             )
             ret.append(line)
+        elif match4:
+            # Remove classes cross-references
+            mname = match4.group(1)
+            line = line.replace(
+                ':py:class:`{mname}`'.format(mname=mname), mname
+            )
+            ret.append(line)
+        elif match5:
+            # Remove constants cross-references
+            mname = match5.group(1)
+            line = line.replace(
+                ':py:data:`{mname}`'.format(mname=mname), mname
+            )
+            ret.append(line)
         elif line.lstrip().startswith('.. literalinclude::'):
             fname = line.lstrip().replace('.. literalinclude::', '').strip()
             literalinclude = True
+        elif line.lstrip().startswith(':file:'):
+            # csv-table
+            fname = line.lstrip().replace(':file:', '').strip()
+            ret.append(
+                line.replace(
+                    fname, os.path.join('.', 'docs', 'support', 'data.csv')
+                )
+            )
         elif line.lstrip().startswith('.. include::'):
             # Include files
             base_fname = line.split()[-1].strip()
@@ -446,6 +478,8 @@ def generate_top_level_readme(pkg_dir):
             # Remove auto-functions, PyPI reStructuredText parser
             # does not appear to like it
             autofunction = True
+        elif line.lstrip().startswith('.. [REMOVE START]'):
+            remove_block = True
         else:
             ret.append(line)
     fname = os.path.join(pkg_dir, 'README.rst')

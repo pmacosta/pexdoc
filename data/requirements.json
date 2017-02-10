@@ -174,7 +174,7 @@
 		"optional":false,
 		"url":"http://pmisc.readthedocs.org",
 		"cat":["main", "rtd"],
-		"ver":">=1.2.1",
+		"ver":">=1.2.2",
 		"pos":17
 	},
 	"ptrie":{
@@ -182,7 +182,7 @@
 		"optional":false,
 		"url":"http://ptrie.readthedocs.org",
 		"cat":["main", "rtd"],
-		"ver":">=1.0.5",
+		"ver":">=1.0.6",
 		"pos":18
 	}
 }

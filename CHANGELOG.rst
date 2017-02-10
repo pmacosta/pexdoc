@@ -5,6 +5,8 @@
 Changelog
 =========
 
+* 1.0.9 [2017-02-10]: Package build enhancements and fixes
+
 * 1.0.8 [2017-02-07]: Python 3.6 support
 
 * 1.0.7 [2017-01-02]: Suppressed deprecation warnings for

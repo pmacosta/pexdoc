@@ -171,9 +171,9 @@ Contributing
 
     * `Mock`_ (Python 2.x only, 1.0.1 or newer)
 
-    * `Pmisc`_ (1.2.1 or newer)
+    * `Pmisc`_ (1.2.2 or newer)
 
-    * `Ptrie`_ (1.0.5 or newer)
+    * `Ptrie`_ (1.0.6 or newer)
 
     * `Py.test`_ (2.7.0 or newer)
 
