@@ -1,5 +1,5 @@
 # exh.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,C0411,C0413,E0012,E0012,E0611,E1101,E1103,F0401
 # pylint: disable=R0201,R0912,R0913,R0914,R0915,W0122,W0212,W0613,W0631
@@ -1105,7 +1105,7 @@ class ExHandle(object):
         class_obj = scontext.__class__ if scontext is not None else None
         if not class_obj:
             del fobj, scontext, class_obj
-            return
+            return None
         # Get class properties objects
         class_props = [
             (member_name, member_obj)
@@ -1114,7 +1114,7 @@ class ExHandle(object):
         ]
         if not class_props:
             del fobj, scontext, class_obj
-            return
+            return None
         class_file = inspect.getfile(class_obj).replace('.pyc', '.py')
         class_name = self._callables_obj.get_callable_from_line(
             class_file,
@@ -1161,6 +1161,7 @@ class ExHandle(object):
                         prop_name=prop_name,
                         prop_action=desc_dict[action_name]
                     )
+        return None
 
     def _raise_exception(self, eobj, edata=None):
         """ Raise exception by name """
@@ -1303,7 +1304,7 @@ class ExHandle(object):
         """
         # Callable name is None when callable is part of exclude list
         if call is None:
-            return
+            return None
         itokens = call.split(self._callables_separator)
         odict = {}
         for key, value in self._clut.items():
@@ -1328,7 +1329,7 @@ class ExHandle(object):
         """
         # Callable name is None when callable is part of exclude list
         if call is None:
-            return
+            return None
         itokens = call.split(self._callables_separator)
         otokens = []
         for itoken in itokens:

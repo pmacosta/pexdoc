@@ -1,5 +1,5 @@
 # ptypes.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,R0916
 
@@ -21,9 +21,9 @@ _SUFFIX_TUPLE = (
 ###
 def _check_csv_col_filter(obj):
     if (not isinstance(obj, bool)) and ((obj is None) or
-       isinstance(obj, str) or isinstance(obj, int) or
-       (isinstance(obj, list) and (len(obj) > 0) and
-       all([(isinstance(item, str) or isinstance(item, int)) and
+       isinstance(obj, (str, int)) or
+       (isinstance(obj, list) and obj and
+       all([isinstance(item, (int, str)) and
        (not isinstance(item, bool)) for item in obj]))):
         return False
     return True
@@ -35,11 +35,11 @@ def _check_csv_row_filter(obj):
         return 0
     if not isinstance(obj, dict):
         return 1
-    if not len(obj):
+    if not obj:
         return 2
     if any(
             [
-                not (isinstance(col_name, str) or isinstance(col_name, int))
+                not isinstance(col_name, (str, int))
                 for col_name in obj.keys()
             ]
     ):
@@ -69,8 +69,8 @@ def _homogenize_data_filter(dfilter):
         dfilter = (None, None)
     elif isinstance(dfilter, dict):
         dfilter = (dfilter, None)
-    elif (isinstance(dfilter, str) or (isinstance(dfilter, int) and
-         (not isinstance(dfilter, bool))) or isinstance(dfilter, list)):
+    elif (isinstance(dfilter, (list, str)) or (isinstance(dfilter, int) and
+         (not isinstance(dfilter, bool)))):
         dfilter = (None, dfilter if isinstance(dfilter, list) else [dfilter])
     elif (isinstance(dfilter[0], dict) or ((dfilter[0] is None) and
          (not isinstance(dfilter[1], dict)))):
@@ -86,11 +86,9 @@ def _isnumber(obj):
     import loops
     """
     return (
-        (((obj is not None) and
+        ((obj is not None) and
         (not isinstance(obj, bool)) and
-        (isinstance(obj, int) or
-        isinstance(obj, float) or
-        isinstance(obj, complex))))
+        (isinstance(obj, (int, float, complex))))
     )
 
 
@@ -130,7 +128,7 @@ def csv_col_sort(obj):
     """
     exdesc = pexdoc.pcontracts.get_exdesc()
     obj = obj if isinstance(obj, list) else [obj]
-    if len(obj) == 0:
+    if not obj:
         raise ValueError(exdesc)
     for item in obj:
         # Weed out items not having the right basic types

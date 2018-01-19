@@ -1,8 +1,9 @@
 # pinspect.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0103,C0111,C0413,E0611,F0401
-# pylint: disable=R0201,R0903,R0913,R0915,W0104,W0212,W0232,W0612,W0613,W0621
+# pylint: disable=R0201,R0903,R0913,R0914,R0915
+# pylint: disable=W0104,W0212,W0232,W0612,W0613,W0621
 
 # Standard library imports
 from __future__ import print_function
@@ -61,6 +62,7 @@ if sys.hexversion == 0x03000000:
             def __exit__(self, exc_type, exc_value, exc_tb):
                 if exc_type is not None:
                     return False
+                return True
             def readlines(self):
                 return 'MockOpenCls'
         pkg_dir = os.path.abspath(os.path.dirname(__file__))
@@ -462,7 +464,6 @@ class TestCallables(object):
 
     def test_load_save(self):
         """ Test load and save methods behavior """
-        # pylint: disable=R0914
         import tests.support.csv_file
         import tests.support.exdoc_support_module_1
         # Empty object
@@ -525,41 +526,42 @@ class TestCallables(object):
         ref.append('Classes:')
         ref.append('   {0}'.format(cname))
         ref.append('{0}._homogenize_data_filter: func (50-72)'.format(mname))
-        ref.append('{0}._isnumber: func (73-86)'.format(mname))
-        ref.append('{0}._tofloat: func (87-99)'.format(mname))
-        ref.append('{0}._write_int: func (100-124)'.format(mname))
-        ref.append('{0}: class (125-1000)'.format(cname))
-        ref.append('{0}.__init__: meth (176-249)'.format(cname))
-        ref.append('{0}.__eq__: meth (250-284)'.format(cname))
-        ref.append('{0}.__repr__: meth (285-318)'.format(cname))
-        ref.append('{0}.__str__: meth (319-363)'.format(cname))
-        ref.append('{0}._format_rfilter: meth (364-380)'.format(cname))
-        ref.append('{0}._gen_col_index: meth (381-393)'.format(cname))
-        ref.append('{0}._get_cfilter: meth (394-396)'.format(cname))
-        ref.append('{0}._get_dfilter: meth (397-399)'.format(cname))
-        ref.append('{0}._get_rfilter: meth (400-402)'.format(cname))
-        ref.append('{0}._reset_dfilter_int: meth (403-408)'.format(cname))
-        ref.append('{0}._in_header: meth (409-443)'.format(cname))
-        ref.append('{0}._set_cfilter: meth (444-448)'.format(cname))
-        ref.append('{0}._set_dfilter: meth (449-454)'.format(cname))
-        ref.append('{0}._set_rfilter: meth (455-459)'.format(cname))
-        ref.append('{0}._add_dfilter_int: meth (460-502)'.format(cname))
-        ref.append('{0}._apply_filter: meth (503-535)'.format(cname))
-        ref.append('{0}._set_has_header: meth (536-539)'.format(cname))
-        ref.append('{0}._validate_frow: meth (540-545)'.format(cname))
-        ref.append('{0}._validate_rfilter: meth (546-579)'.format(cname))
-        ref.append('{0}.add_dfilter: meth (580-603)'.format(cname))
-        ref.append('{0}.cols: meth (604-623)'.format(cname))
-        ref.append('{0}.data: meth (624-652)'.format(cname))
-        ref.append('{0}.dsort: meth (653-705)'.format(cname))
-        ref.append('{0}.header: meth (706-737)'.format(cname))
-        ref.append('{0}.replace: meth (738-808)'.format(cname))
-        ref.append('{0}.reset_dfilter: meth (809-826)'.format(cname))
-        ref.append('{0}.rows: meth (827-846)'.format(cname))
-        ref.append('{0}.write: meth (847-929)'.format(cname))
-        ref.append('{0}.cfilter: prop (930-952)'.format(cname))
-        ref.append('{0}.dfilter: prop (953-976)'.format(cname))
-        ref.append('{0}.rfilter: prop (977-1000)'.format(cname))
+
+        ref.append('{0}._isnumber: func (73-84)'.format(mname))
+        ref.append('{0}._tofloat: func (85-97)'.format(mname))
+        ref.append('{0}._write_int: func (98-122)'.format(mname))
+        ref.append('{0}: class (123-998)'.format(cname))
+        ref.append('{0}.__init__: meth (174-247)'.format(cname))
+        ref.append('{0}.__eq__: meth (248-282)'.format(cname))
+        ref.append('{0}.__repr__: meth (283-316)'.format(cname))
+        ref.append('{0}.__str__: meth (317-361)'.format(cname))
+        ref.append('{0}._format_rfilter: meth (362-378)'.format(cname))
+        ref.append('{0}._gen_col_index: meth (379-391)'.format(cname))
+        ref.append('{0}._get_cfilter: meth (392-394)'.format(cname))
+        ref.append('{0}._get_dfilter: meth (395-397)'.format(cname))
+        ref.append('{0}._get_rfilter: meth (398-400)'.format(cname))
+        ref.append('{0}._reset_dfilter_int: meth (401-406)'.format(cname))
+        ref.append('{0}._in_header: meth (407-441)'.format(cname))
+        ref.append('{0}._set_cfilter: meth (442-446)'.format(cname))
+        ref.append('{0}._set_dfilter: meth (447-452)'.format(cname))
+        ref.append('{0}._set_rfilter: meth (453-457)'.format(cname))
+        ref.append('{0}._add_dfilter_int: meth (458-500)'.format(cname))
+        ref.append('{0}._apply_filter: meth (501-533)'.format(cname))
+        ref.append('{0}._set_has_header: meth (534-537)'.format(cname))
+        ref.append('{0}._validate_frow: meth (538-543)'.format(cname))
+        ref.append('{0}._validate_rfilter: meth (544-577)'.format(cname))
+        ref.append('{0}.add_dfilter: meth (578-601)'.format(cname))
+        ref.append('{0}.cols: meth (602-621)'.format(cname))
+        ref.append('{0}.data: meth (622-650)'.format(cname))
+        ref.append('{0}.dsort: meth (651-703)'.format(cname))
+        ref.append('{0}.header: meth (704-735)'.format(cname))
+        ref.append('{0}.replace: meth (736-806)'.format(cname))
+        ref.append('{0}.reset_dfilter: meth (807-824)'.format(cname))
+        ref.append('{0}.rows: meth (825-844)'.format(cname))
+        ref.append('{0}.write: meth (845-927)'.format(cname))
+        ref.append('{0}.cfilter: prop (928-950)'.format(cname))
+        ref.append('{0}.dfilter: prop (951-974)'.format(cname))
+        ref.append('{0}.rfilter: prop (975-998)'.format(cname))
         ref_txt = '\n'.join(ref)
         actual_txt = str(xobj)
         CS(actual_txt, ref_txt)

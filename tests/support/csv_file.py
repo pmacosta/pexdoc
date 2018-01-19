@@ -1,5 +1,5 @@
 # csv_file.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,C0411,R0201,R0916,W0105,W0611
 
@@ -59,8 +59,8 @@ def _homogenize_data_filter(dfilter):
         dfilter = (None, None)
     elif isinstance(dfilter, dict):
         dfilter = (dfilter, None)
-    elif (isinstance(dfilter, str) or (isinstance(dfilter, int) and
-         (not isinstance(dfilter, bool))) or isinstance(dfilter, list)):
+    elif (isinstance(dfilter, (str, list)) or (isinstance(dfilter, int) and
+         (not isinstance(dfilter, bool)))):
         dfilter = (None, dfilter if isinstance(dfilter, list) else [dfilter])
     elif (isinstance(dfilter[0], dict) or ((dfilter[0] is None) and
          (not isinstance(dfilter[1], dict)))):
@@ -76,11 +76,9 @@ def _isnumber(obj):
     import loops
     """
     return (
-        (((obj is not None) and
+        (obj is not None) and
         (not isinstance(obj, bool)) and
-        (isinstance(obj, int) or
-        isinstance(obj, float) or
-        isinstance(obj, complex))))
+        isinstance(obj, (int, float, complex))
     )
 
 
@@ -209,7 +207,7 @@ class CsvFile(object):
             with open(fname, 'r', newline='') as file_handle:
                 self._raw_data = [row for row in csv.reader(file_handle)]
         # Process header
-        empty_exobj(not len(self._raw_data), edata)
+        empty_exobj(not self._raw_data, edata)
         if has_header:
             self._header = self._raw_data[0]
             self._header_upper = [col.upper() for col in self._header]
@@ -420,23 +418,23 @@ class CsvFile(object):
         )
         col_list = (
             [col]
-            if isinstance(col, str) or isinstance(col, int) else
+            if isinstance(col, (str, int)) else
             col
         )
-        for col in col_list:
-            edata = {'field':'column_identifier', 'value':col}
+        for item in col_list:
+            edata = {'field':'column_identifier', 'value':item}
             if not self._has_header:
                 # Condition not subsumed in raise_exception_if
                 # so that calls that always have has_header=True
                 # do not pick up this exception
-                icol_ex(not isinstance(col, int))
-                hnf_ex((col < 0) or (col > len(self._header)-1), edata)
+                icol_ex(not isinstance(item, int))
+                hnf_ex((item < 0) or (item > len(self._header)-1), edata)
             else:
                 hnf_ex(
-                    (isinstance(col, int) and
-                    ((col < 0) or (col > self._data_cols))) or
-                    (isinstance(col, str) and
-                    (col.upper() not in self._header_upper)),
+                    (isinstance(item, int) and
+                    ((item < 0) or (item > self._data_cols))) or
+                    (isinstance(item, str) and
+                    (item.upper() not in self._header_upper)),
                     edata
                 )
         return col_list

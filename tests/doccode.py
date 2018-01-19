@@ -1,5 +1,5 @@
 # doccode.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,C0302,E1129,R0914,R0915,W0212,W0640
 
@@ -82,7 +82,7 @@ def test_exdoc_doccode():
     proc = subprocess.Popen(['python', script_name], stdout=subprocess.PIPE)
     stdout = proc.communicate()[0]
     actual_text = remove_header(stdout)
-    assert actual_text == ref_text
+    pmisc.compare_strings(actual_text, ref_text)
     # Test cogging
     script_name = os.path.join(script_dir, 'build-docs.sh')
     input_file = os.path.join(script_dir, 'my_module.py')

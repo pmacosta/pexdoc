@@ -1,9 +1,12 @@
 .. CHANGELOG.rst
-.. Copyright (c) 2013-2017 Pablo Acosta-Serafini
+.. Copyright (c) 2013-2018 Pablo Acosta-Serafini
 .. See LICENSE for details
 
 Changelog
 =========
+
+* 1.1.0 [2018-01-19]: Dropped support for Python interpreter versions 2.6, 3.3
+  and 3.4. Updated dependencies versions to their current versions
 
 * 1.0.9 [2017-02-10]: Package build enhancements and fixes
 

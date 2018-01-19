@@ -1,8 +1,8 @@
 # pcontracts.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0103,C0111,C0413,
-# pylint: disable=E0102,E0611,E1101,F0401,R0912,R0914,W0212,W0613
+# pylint: disable=E0102,E0611,E1101,F0401,R0912,R0914,R1710,W0212,W0613
 
 # Standard library imports
 import inspect
@@ -68,17 +68,15 @@ def _format_arg(arg):
     # (when the default exception type is used), an exception type (when the
     # default exception message is used) or a list/tuple to specify both
     # exception type and exception message
-    if (not (isinstance(arg, str) or _isexception(arg) or
-       isinstance(arg, tuple) or isinstance(arg, list))):
+    if not (_isexception(arg) or isinstance(arg, (str, tuple, list))):
         raise TypeError('Illegal custom contract exception definition')
     # Check that when the argument is a list or tuple, they only have at most
     # 2 items, the exception type and the exception message
-    if ((isinstance(arg, tuple) or isinstance(arg, list)) and
-       ((len(arg) == 0) or (len(arg) > 2))):
+    if isinstance(arg, (tuple, list)) and ((not arg) or (len(arg) > 2)):
         raise TypeError('Illegal custom contract exception definition')
     # When only an exception message is given (and the default RuntimeError
     # exception type is used), check that the message is not empty
-    if isinstance(arg, str) and (len(arg) == 0):
+    if isinstance(arg, str) and (not arg):
         raise ValueError('Empty custom contract exception message')
     # When only an exception message is defined,
     # use the default exception type
@@ -101,10 +99,10 @@ def _format_arg(arg):
         raise TypeError('Illegal custom contract exception definition')
     # Check that the exception definition has a non-empty exception message
     # when a list/tuple definition is used
-    if (len(arg) == 1) and isinstance(arg[0], str) and (len(arg[0]) == 0):
+    if (len(arg) == 1) and isinstance(arg[0], str) and (not arg[0]):
         raise ValueError('Empty custom contract exception message')
-    if ((len(arg) == 2) and ((isinstance(arg[0], str) and (len(arg[0]) == 0))
-       or (isinstance(arg[1], str) and (len(arg[1]) == 0)))):
+    if ((len(arg) == 2) and ((isinstance(arg[0], str) and (not arg[0]))
+       or (isinstance(arg[1], str) and (not arg[1])))):
         raise ValueError('Empty custom contract exception message')
     # Return conforming dictionary with default exception type and exception
     # message applied (if necessary)
@@ -117,11 +115,11 @@ def _format_arg(arg):
             ),
             'type':arg[0] if _isexception(arg[0]) else RuntimeError
         }
-    else:   # len(arg) == 2
-        return {
-            'msg':arg[0] if isinstance(arg[0], str) else arg[1],
-            'type':arg[0] if _isexception(arg[0]) else arg[1]
-        }
+    # len(arg) == 2
+    return {
+        'msg':arg[0] if isinstance(arg[0], str) else arg[1],
+        'type':arg[0] if _isexception(arg[0]) else arg[1]
+    }
 
 
 def _get_contract_exception_dict(contract_msg):
@@ -140,18 +138,17 @@ def _get_contract_exception_dict(contract_msg):
             'msg':'Argument `*[argument_name]*` is not valid',
             'type':RuntimeError, 'field':'argument_name'
         }
-    else:
-        # Custom contract
-        msg_start = contract_msg.find(start_token)+len(start_token)
-        contract_msg = contract_msg[msg_start:]
-        contract_name = contract_msg[:contract_msg.find(']')]
-        contract_msg = contract_msg[
-            contract_msg.find(']')+1:contract_msg.find(stop_token)
-        ]
-        exdict = _CUSTOM_CONTRACTS[contract_name]
-        for exvalue in exdict.values(): # pragma: no branch
-            if exvalue['msg'] == contract_msg:
-                return exvalue
+    # Custom contract
+    msg_start = contract_msg.find(start_token)+len(start_token)
+    contract_msg = contract_msg[msg_start:]
+    contract_name = contract_msg[:contract_msg.find(']')]
+    contract_msg = contract_msg[
+        contract_msg.find(']')+1:contract_msg.find(stop_token)
+    ]
+    exdict = _CUSTOM_CONTRACTS[contract_name]
+    for exvalue in exdict.values(): # pragma: no branch
+        if exvalue['msg'] == contract_msg:
+            return exvalue
 
 
 def _get_custom_contract(param_contract):
@@ -309,7 +306,7 @@ def _get_replacement_token(msg):
 def _parse_new_contract_args(*args, **kwargs):
     """ Parse argument for new_contract() function """
     # No arguments
-    if (len(args) == 0) and (len(kwargs) == 0):
+    if (not args) and (not kwargs):
         return [
             {
                 'name':'argument_invalid',
@@ -318,7 +315,7 @@ def _parse_new_contract_args(*args, **kwargs):
             }
         ]
     # Process args
-    if (len(args) > 1) or ((len(args) == 1) and (len(kwargs) > 0)):
+    if (len(args) > 1) or ((len(args) == 1) and kwargs):
         raise TypeError('Illegal custom contract exception definition')
     elif len(args) == 1:
         return [dict([('name', 'default')]+list(_format_arg(args[0]).items()))]
@@ -331,7 +328,7 @@ def _parse_new_contract_args(*args, **kwargs):
 
 def _register_custom_contracts(contract_name, contract_exceptions):
     """ Homogenize custom contract exception definition """
-    # pylint: disable=W0602
+    # pylint: disable=W0602,W0603
     global _CUSTOM_CONTRACTS
     # Validate arguments and homogenize contract exceptions
     if not isinstance(contract_name, str):

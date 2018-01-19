@@ -1,5 +1,5 @@
 # ptypes.py
-# Copyright (c) 2013-2017 Pablo Acosta-Serafini
+# Copyright (c) 2013-2018 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,R0916
 
@@ -175,7 +175,7 @@ def non_null_string(obj):
 
     :rtype: None
     """
-    if isinstance(obj, str) and (len(obj) > 0):
+    if isinstance(obj, str) and obj:
         return None
     raise ValueError(pexdoc.pcontracts.get_exdesc())
 
@@ -194,7 +194,7 @@ def offset_range(obj):
 
     :rtype: None
     """
-    if ((isinstance(obj, int) or isinstance(obj, float)) and
+    if (isinstance(obj, (int, float)) and
        (not isinstance(obj, bool)) and (obj >= 0) and (obj <= 1)):
         return None
     raise ValueError(pexdoc.pcontracts.get_exdesc())
@@ -215,8 +215,8 @@ def positive_real_num(obj):
 
     :rtype: None
     """
-    if ((obj is None) or ((isinstance(obj, int) or
-       isinstance(obj, float)) and (obj > 0) and (not isinstance(obj, bool)))):
+    if ((obj is None) or (isinstance(obj, (int, float)) and
+       (obj > 0) and (not isinstance(obj, bool)))):
         return None
     raise ValueError(pexdoc.pcontracts.get_exdesc())
 
@@ -236,7 +236,7 @@ def real_num(obj):
     :rtype: None
     """
     if ((obj is None) or
-       ((isinstance(obj, int) or isinstance(obj, float)) and
+       (isinstance(obj, (int, float)) and
        (not isinstance(obj, bool)))):
         return None
     raise ValueError(pexdoc.pcontracts.get_exdesc())
