@@ -1,5 +1,5 @@
 # trace_my_module_1.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,C0410
 
@@ -10,24 +10,24 @@
 from __future__ import print_function
 import copy, os, pytest, pexdoc
 
+
 def trace_module(no_print=True):
-    """ Trace my_module exceptions """
+    """.Trace my_module exceptions."""
     pwd = os.path.dirname(__file__)
-    script_name = os.path.join(pwd, 'test_my_module.py')
+    script_name = os.path.join(pwd, "test_my_module.py")
     with pexdoc.ExDocCxt() as exdoc_obj:
-        if pytest.main('-s -vv -x {0}'.format(script_name)):
-            raise RuntimeError(
-                'Tracing did not complete successfully'
-            )
+        if pytest.main(["-s", "-vv", "-x", "{0}".format(script_name)]):
+            raise RuntimeError("Tracing did not complete successfully")
     if not no_print:
-        module_prefix = 'docs.support.my_module.'
-        callable_names = ['func', 'MyClass.value']
+        module_prefix = "docs.support.my_module."
+        callable_names = ["func", "MyClass.value"]
         for callable_name in callable_names:
-            callable_name = module_prefix+callable_name
-            print('\nCallable: {0}'.format(callable_name))
+            callable_name = module_prefix + callable_name
+            print("\nCallable: {0}".format(callable_name))
             print(exdoc_obj.get_sphinx_doc(callable_name, width=70))
-            print('\n')
+            print("\n")
     return copy.copy(exdoc_obj)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     trace_module(False)

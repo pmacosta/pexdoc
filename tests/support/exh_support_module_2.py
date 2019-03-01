@@ -1,14 +1,15 @@
 # exh_support_module_2.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,R0903,W0212,W0611,W0612
+# pylint: disable=C0111,R0205,R0903,W0212,W0611,W0612
 
 import pexdoc.exh
 
 
 class MyClass(object):
-    """ Enclosed class """
-    def __init__(self, exhobj, value=0):
+    """Enclosed class."""
+
+    def __init__(self, exhobj, value=0):  # noqa: D107
         self._exhobj = exhobj
         self._value = None
         self.value = value
@@ -17,9 +18,7 @@ class MyClass(object):
         return self._value
 
     def _set_value(self, value):
-        self._exhobj.add_exception(
-            'wrong_value', TypeError, 'Illegal value'
-        )
+        self._exhobj.add_exception("wrong_value", TypeError, "Illegal value")
         self._value = value
 
-    value = property(_get_value, _set_value, doc='Value property')
+    value = property(_get_value, _set_value, doc="Value property")

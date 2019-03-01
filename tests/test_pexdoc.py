@@ -1,6 +1,5 @@
-﻿# -*- coding: utf-8 -*-
 # test_pexdoc.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,W0401,W0614
 

@@ -1,10 +1,11 @@
 # pinspect_support_module_5.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,F0401,W0125,W0212,W0611
+# pylint: disable=C0111,F0401,R0205,W0125,W0212,W0611
 
 
 import math
+
 if True:
     import os
 else:
@@ -12,10 +13,11 @@ else:
 
 
 def namespace_test_enclosing_function():
-    """ Enclosing function to test namespace resolution """
+    """Enclosing function to test namespace resolution."""
     # pylint: disable=C0103,R0903,W0612
     class NamespaceTestClass(object):
-        """ Enclosed class to test namespace resolution """
+        """Enclosed class to test namespace resolution."""
+
         def __init__(self):
             self._data = None
 
@@ -25,4 +27,4 @@ def namespace_test_enclosing_function():
         def _set_data(self, data):
             self._data = data
 
-        data = property(_get_data, _set_data, None, 'Data property')
+        data = property(_get_data, _set_data, None, "Data property")

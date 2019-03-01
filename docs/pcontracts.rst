@@ -1,7 +1,11 @@
 .. pcontracts.rst
-.. Copyright (c) 2013-2018 Pablo Acosta-Serafini
+.. Copyright (c) 2013-2019 Pablo Acosta-Serafini
 .. See LICENSE for details
 .. py:module:: pexdoc.pcontracts
+
+.. _all_disabled(): http://andreacensi.github.io/contracts/api/contracts.html#module-contracts.enabling
+.. _disable_all(): http://andreacensi.github.io/contracts/api/contracts.html#module-contracts.enabling
+.. _enable_all(): http://andreacensi.github.io/contracts/api/contracts.html#module-contracts.enabling
 
 #################
 pcontracts module

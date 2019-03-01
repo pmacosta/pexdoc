@@ -1,7 +1,9 @@
 .. exdoc.rst
-.. Copyright (c) 2013-2018 Pablo Acosta-Serafini
+.. Copyright (c) 2013-2019 Pablo Acosta-Serafini
 .. See LICENSE for details
 .. py:module:: pexdoc.exdoc
+
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
 
 ############
 exdoc module
@@ -9,7 +11,7 @@ exdoc module
 
 This module can be used to automatically generate exceptions documentation
 marked up in `reStructuredText <http://docutils.sourceforge.net/rst.html>`_
-with help from `cog <http://nedbatchelder.com/code/cog/>`_ and the
+with help from `cog <https://nedbatchelder.com/code/cog>`_ and the
 :py:mod:`pexdoc.exh` module.
 
 The exceptions to auto-document need to be defined with either the

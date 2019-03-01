@@ -1,43 +1,39 @@
 .. README.rst
-.. Copyright (c) 2013-2018 Pablo Acosta-Serafini
+.. Copyright (c) 2013-2019 Pablo Acosta-Serafini
 .. See LICENSE for details
 
-
 .. image:: https://badge.fury.io/py/pexdoc.svg
-    :target: https://pypi.python.org/pypi/pexdoc
+    :target: https://pypi.org/project/pexdoc
     :alt: PyPI version
 
 .. image:: https://img.shields.io/pypi/l/pexdoc.svg
-    :target: https://pypi.python.org/pypi/pexdoc
+    :target: https://pypi.org/project/pexdoc
     :alt: License
 
 .. image:: https://img.shields.io/pypi/pyversions/pexdoc.svg
-    :target: https://pypi.python.org/pypi/pexdoc
+    :target: https://pypi.org/project/pexdoc
     :alt: Python versions supported
 
 .. image:: https://img.shields.io/pypi/format/pexdoc.svg
-    :target: https://pypi.python.org/pypi/pexdoc
+    :target: https://pypi.org/project/pexdoc
     :alt: Format
 
 |
 
 .. image::
-   https://travis-ci.org/pmacosta/pexdoc.svg?branch=master
+    https://dev.azure.com/pmasdev/pexdoc/_apis/build/status/pmacosta.pexdoc?branchName=master
+    :target: https://dev.azure.com/pmasdev/pexdoc/_build?definitionId=3&_a=summary
+    :alt: Continuous integration test status
 
 .. image::
-   https://ci.appveyor.com/api/projects/status/
-   7dpk342kxs8kcg5t/branch/master?svg=true
-   :alt: Windows continuous integration
+    https://img.shields.io/azure-devops/coverage/pmasdev/pexdoc/5.svg
+    :target: https://dev.azure.com/pmasdev/pexdoc/_build?definitionId=5&_a=summary
+    :alt: Continuous integration test coverage
 
 .. image::
-   https://codecov.io/github/pmacosta/pexdoc/coverage.svg?branch=master
-   :target: https://codecov.io/github/pmacosta/pexdoc?branch=master
-   :alt: Continuous integration coverage
-
-.. image::
-   https://readthedocs.org/projects/pip/badge/?version=stable
-   :target: http://pip.readthedocs.org/en/stable/?badge=stable
-   :alt: Documentation status
+    https://readthedocs.org/projects/pip/badge/?version=stable
+    :target: https://pip.readthedocs.io/en/stable/?badge=stable
+    :alt: Documentation status
 
 |
 
@@ -48,35 +44,36 @@ Description
 	:language: bash
 
 .. [[[cog
-.. import os, sys
-.. from docs.support.term_echo import ste
-.. file_name = sys.modules['docs.support.term_echo'].__file__
-.. mdir = os.path.realpath(
-..     os.path.dirname(os.path.dirname(os.path.dirname(file_name)))
+.. import os, sys, pmisc, docs.support.requirements_to_rst
+.. file_name = sys.modules['docs.support.requirements_to_rst'].__file__
+.. mdir = os.path.join(os.path.realpath(
+..    os.path.dirname(os.path.dirname(os.path.dirname(file_name)))), 'pypkg'
 .. )
-.. import docs.support.requirements_to_rst
 .. docs.support.requirements_to_rst.def_links(cog)
 .. ]]]
 .. _Astroid: https://bitbucket.org/logilab/astroid
-.. _Cog: http://nedbatchelder.com/code/cog
-.. _Coverage: http://coverage.readthedocs.org/en/coverage-4.0a5
-.. _Decorator: https://pythonhosted.org/decorator
+.. _Cog: https://nedbatchelder.com/code/cog
+.. _Coverage: https://coverage.readthedocs.io
+.. _Decorator: https://decorator.readthedocs.io
 .. _Docutils: http://docutils.sourceforge.net/docs
-.. _Funcsigs: https://pypi.python.org/pypi/funcsigs
-.. _Mock: http://www.voidspace.org.uk/python/mock
+.. _Funcsigs: https://pypi.org/project/funcsigs
+.. _Mock: https://docs.python.org/3/library/unittest.mock.html
 .. _Pmisc: http://pmisc.readthedocs.org
 .. _Ptrie: http://ptrie.readthedocs.org
 .. _PyContracts: https://andreacensi.github.io/contracts
-.. _Pylint: http://www.pylint.org
+.. _Pylint: https://www.pylint.org
 .. _Py.test: http://pytest.org
-.. _Pytest-coverage: https://pypi.python.org/pypi/pytest-cov
-.. _Pytest-xdist: https://pypi.python.org/pypi/pytest-xdist
+.. _Pytest-coverage: https://pypi.org/project/pytest-cov
+.. _Pytest-pmisc: http://pytest-pmisc.readthedocs.org
+.. _Pytest-xdist: https://pypi.org/project/pytest-xdist
 .. _Sphinx: http://sphinx-doc.org
-.. _ReadTheDocs Sphinx theme: https://github.com/snide/sphinx_rtd_theme
+.. _ReadTheDocs Sphinx theme: https://github.com/rtfd/sphinx_rtd_theme
 .. _Inline Syntax Highlight Sphinx Extension:
    https://bitbucket.org/klorenz/sphinxcontrib-inlinesyntaxhighlight
+.. _Shellcheck Linter Sphinx Extension:
+   https://pypi.org/project/sphinxcontrib-shellcheck
 .. _Tox: https://testrun.org/tox
-.. _Virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs
+.. _Virtualenv: https://docs.python-guide.org/dev/virtualenvs
 .. [[[end]]]
 
 This package provides a light framework that can be used to automatically
@@ -89,8 +86,8 @@ traced them and how to generate their documentation
 Interpreter
 ===========
 
-The package has been developed and tested with Python 2.7, 3.5 and 3.6 under
-Linux (Debian, Ubuntu), Apple OS X and Microsoft Windows
+The package has been developed and tested with Python 2.7, 3.5, 3.6 and 3.7
+under Linux (Debian, Ubuntu), Apple macOS and Microsoft Windows
 
 Installing
 ==========
@@ -102,25 +99,26 @@ Installing
 Documentation
 =============
 
-Available at `Read the Docs <https://pexdoc.readthedocs.org>`_
+Available at `Read the Docs <https://pexdoc.readthedocs.io>`_
 
 Contributing
 ============
 
 1. Abide by the adopted `code of conduct
-   <http://contributor-covenant.org/version/1/3/0>`_
+   <https://www.contributor-covenant.org/version/1/4/code-of-conduct>`_
 
 2. Fork the `repository <https://github.com/pmacosta/pexdoc>`_ from
    GitHub and then clone personal copy [#f1]_:
 
-	.. code-block:: bash
+    .. code-block:: bash
 
-		$ git clone \
-		      https://github.com/[github-user-name]/pexdoc.git
-                Cloning into 'pexdoc'...
-                ...
-		$ cd pexdoc
-		$ export PEXDOC_DIR=${PWD}
+        $ github_user=myname
+        $ git clone --recursive \
+              https://github.com/"${github_user}"/pexdoc.git
+        Cloning into 'pexdoc'...
+        ...
+        $ cd pexdoc
+        $ export PEXDOC_DIR=${PWD}
 
 3. Install the project's Git hooks and build the documentation. The pre-commit
    hook does some minor consistency checks, namely trailing whitespace and
@@ -130,14 +128,14 @@ Contributing
 
 	.. code-block:: bash
 
-		$ ${PEXDOC_DIR}/sbin/complete-cloning.sh
+		$ "${PEXDOC_DIR}"/pypkg/complete-cloning.sh
                 Installing Git hooks
                 Building pexdoc package documentation
                 ...
 
 4. Ensure that the Python interpreter can find the package modules
    (update the :bash:`$PYTHONPATH` environment variable, or use
-   `sys.paths() <https://docs.python.org/2/library/sys.html#sys.path>`_,
+   `sys.paths() <https://docs.python.org/3/library/sys.html#sys.path>`_,
    etc.)
 
 	.. code-block:: bash
@@ -168,9 +166,9 @@ Contributing
 
     * `Mock`_ (2.0.0 or newer)
 
-    * `Pmisc`_ (1.3.1 or newer)
+    * `Pmisc`_ (1.5.4 or newer)
 
-    * `Ptrie`_ (1.1.0 or newer)
+    * `Ptrie`_ (1.1.1 or newer)
 
     * `Py.test`_ (3.3.2 or newer)
 
@@ -180,9 +178,13 @@ Contributing
 
     * `Pytest-coverage`_ (2.5.1 or newer)
 
+    * `Pytest-pmisc`_ (1.0.3 or newer)
+
     * `Pytest-xdist`_ (optional, 1.22.0 or newer)
 
     * `ReadTheDocs Sphinx theme`_ (0.2.4 or newer)
+
+    * `Shellcheck Linter Sphinx Extension`_ (1.0.5 or newer)
 
     * `Sphinx`_ (1.6.6 or newer)
 
@@ -219,12 +221,12 @@ Contributing
             ...
 
    Tox (or Setuptools via Tox) runs with the following default environments:
-   ``py27-pkg``, ``py35-pkg`` and ``py36-pkg`` [#f2]_. These use the 2.7, 3.5
-   and 3.6 interpreters, respectively, to test all code in the documentation
-   (both in Sphinx ``*.rst`` source files and in docstrings), run all unit
-   tests, measure test coverage and re-build the exceptions documentation. To
-   pass arguments to Py.test (the test runner) use a double dash (``--``) after
-   all the Tox arguments, for example:
+   ``py27-pkg``, ``py35-pkg``, ``py36-pkg`` and ``py37-pkg`` [#f3]_. These use
+   the 2.7, 3.5, 3.6 and 3.7 interpreters, respectively, to test all code in the
+   documentation (both in Sphinx ``*.rst`` source files and in docstrings), run
+   all unit tests, measure test coverage and re-build the exceptions
+   documentation. To pass arguments to Py.test (the test runner) use a double
+   dash (``--``) after all the Tox arguments, for example:
 
 	.. code-block:: bash
 
@@ -244,22 +246,23 @@ Contributing
 
    There are other convenience environments defined for Tox [#f3]_:
 
-    * ``py27-repl``, ``py35-repl`` and ``py36-repl`` run the 2.7, 3.6 or 3.6
-      REPL, respectively, in the appropriate virtual environment. The ``pexdoc``
-      package is pip-installed by Tox when the environments are created.
-      Arguments to the interpreter can be passed in the command line after a
-      double dash (``--``)
+    * ``py27-repl``, ``py35-repl``, ``py36-repl`` and ``py37-repl`` run the 2.7,
+      3.5, 3.6 or 3.7 REPL, respectively, in the appropriate virtual
+      environment. The ``pexdoc`` package is pip-installed by Tox when the
+      environments are created.  Arguments to the interpreter can be passed in
+      the command line after a double dash (``--``)
 
-    * ``py27-test``, ``py35-test`` and ``py36-test`` run py.test using the
-      Python 2.7, 3.5 or Python 3.6 interpreter, respectively, in the
-      appropriate virtual environment. Arguments to py.test can be passed in the
-      command line after a double dash (``--``) , for example:
+    * ``py27-test``, ``py35-test``, ``py36-test`` and ``py37-test`` run py.test
+      using the Python 2.7, 3.5, Python 3.6 or Python 3.7 interpreter,
+      respectively, in the appropriate virtual environment. Arguments to py.test
+      can be passed in the command line after a double dash (``--``) , for
+      example:
 
 	.. code-block:: bash
 
 	    $ tox -e py36-test -- -x test_pexdoc.py
             GLOB sdist-make: [...]/pexdoc/setup.py
-            py36-test inst-nodeps: [...]/pexdoc/.tox/dist/pexdoc-1.1.0.zip
+            py36-test inst-nodeps: [...]/pexdoc/.tox/dist/pexdoc-1.1rc1.zip
             py36-test installed: -f file:[...]
             py36-test runtests: PYTHONHASHSEED='1264622266'
             py36-test runtests: commands[0] | [...]py.test -x test_pexdoc.py
@@ -270,33 +273,32 @@ Contributing
             collected 414 items
             ...
 
-    * ``py27-cov``, ``py35-cov`` and ``py36-cov`` test code and branch coverage
-      using the 2.7, 3.5 or 3.6 interpreter, respectively, in the appropriate
-      virtual environment. Arguments to py.test can be passed in the command
-      line after a double dash (``--``). The report can be found in
-      :bash:`${pexdoc_DIR}/.tox/py[PV]/usr/share/pexdoc/tests/htmlcov/index.html`
-      where ``[PV]`` stands for ``27``, ``35`` or ``36`` depending on the
-      interpreter used
-
+    * ``py27-cov``, ``py35-cov``, ``py36-cov`` and ``py37-cov`` test code and
+      branch coverage using the 2.7, 3.5, 3.6 or 3.7 interpreter, respectively,
+      in the appropriate virtual environment. Arguments to py.test can be passed
+      in the command line after a double dash (``--``). The report can be found
+      in
+      :bash:`${PEXDOC_DIR}/.tox/py[PV]/usr/share/pexdoc/tests/htmlcov/index.html`
+      where ``[PV]`` stands for ``27``, ``35``, ``36`` or ``37`` depending on
+      the interpreter used
 
 8. Verify that continuous integration tests pass. The package has continuous
-   integration configured for Linux (via `Travis <http://www.travis-ci.org>`_)
-   and for Microsoft Windows (via `Appveyor <http://www.appveyor.com>`_).
-   Aggregation/cloud code coverage is configured via
-   `Codecov <https://codecov.io>`_. It is assumed that the Codecov repository
-   upload token in the Travis build is stored in the :bash:`${CODECOV_TOKEN}`
-   environment variable (securely defined in the Travis repository settings
-   page).
+   integration configured for Linux, Apple macOS and Microsoft Windows (all via
+   `Azure DevOps <https://dev.azure.com/pmasdev>`_) Aggregation/cloud code
+   coverage is configured via `Codecov <https://codecov.io>`_. It is assumed
+   that the Codecov repository upload token in the build is stored in the
+   :bash:`$(codecovToken)` environment variable (securely defined in the
+   pipeline settings page).
 
 9. Document the new feature or bug fix (if needed). The script
-   :bash:`${PEXDOC_DIR}/sbin/build_docs.py` re-builds the whole package
+   :bash:`${PEXDOC_DIR}/pypkg/build_docs.py` re-builds the whole package
    documentation (re-generates images, cogs source files, etc.):
 
-	.. [[[cog ste('build_docs.py -h', 0, mdir, cog.out) ]]]
+	.. [[[cog pmisc.ste('build_docs.py -h', 0, mdir, cog.out) ]]]
 
 	.. code-block:: bash
 
-	    $ ${PMISC_DIR}/sbin/build_docs.py -h
+	    $ ${PKG_BIN_DIR}/build_docs.py -h
 	    usage: build_docs.py [-h] [-d DIRECTORY] [-r]
 	                         [-n NUM_CPUS] [-t]
 
@@ -319,18 +321,7 @@ Contributing
 	                            identical, exit code 1 indicates
 	                            file(s) are different)
 
-
 	.. [[[end]]]
-
-    Output of shell commands can be automatically included in reStructuredText
-    source files with the help of Cog_ and the :code:`docs.support.term_echo`
-    module.
-
-
-
-    Similarly Python files can be included in docstrings with the help of Cog_
-    and the :code:`docs.support.incfile` module
-
 
 .. rubric:: Footnotes
 
@@ -339,10 +330,10 @@ Contributing
 
 .. [#f2] It is assumed that all the Python interpreters are in the executables
    path. Source code for the interpreters can be downloaded from Python's main
-   `site <http://www.python.org/downloads>`_
+   `site <https://www.python.org/downloads/>`_
 
 .. [#f3] Tox configuration largely inspired by
-   `Ionel's codelog <http://blog.ionelmc.ro/2015/04/14/
+   `Ionel's codelog <https://blog.ionelmc.ro/2015/04/14/
    tox-tricks-and-patterns/>`_
 
 
@@ -351,7 +342,7 @@ License
 
 The MIT License (MIT)
 
-Copyright (c) 2013-2018 Pablo Acosta-Serafini
+Copyright (c) 2013-2019 Pablo Acosta-Serafini
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

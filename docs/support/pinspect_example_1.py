@@ -1,15 +1,18 @@
 # pinspect_example_1.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,R0903,W0212,W0611,W0612
+# pylint: disable=C0111,R0205,R0903,W0212,W0611,W0612
 
 from __future__ import print_function
 import math
 
-def my_func(version):
-    """ Enclosing function """
+
+def my_func(version):  # noqa: D202
+    """Enclosing function."""
+
     class MyClass(object):
-        """ Enclosed class """
+        """Enclosed class."""
+
         if version == 2:
             import docs.support.python2_module as pm
         else:
@@ -21,7 +24,8 @@ def my_func(version):
         def _get_value(self):
             return self._value
 
-        value = property(_get_value, pm._set_value, None, 'Value property')
+        value = property(_get_value, pm._set_value, None, "Value property")
+
 
 def print_name(name):
-    print('My name is {0}, and sqrt(2) = {1}'.format(name, math.sqrt(2)))
+    print("My name is {0}, and sqrt(2) = {1}".format(name, math.sqrt(2)))

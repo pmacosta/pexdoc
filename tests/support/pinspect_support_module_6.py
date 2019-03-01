@@ -1,18 +1,21 @@
 # pinspect_support_module_6.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,W0212
+# pylint: disable=C0111,R0205,W0212
 
 
 def namespace_test_enclosing_error_function():
     """
-    Enclosing function to test namespace resolution when non-import errors
-    are encountered
+    Enclosing function.
+
+    Test namespace resolution when non-import errors encountered'
     """
     # pylint: disable=C0103,R0903,W0612
     class NamespaceTestClass(object):
-        """ Enclosed class to test namespace resolution error handling """
+        """Enclosed class to test namespace resolution error handling."""
+
         import math
+
         value = math.sqrt(-1)
 
         def __init__(self):
@@ -24,4 +27,4 @@ def namespace_test_enclosing_error_function():
         def _set_data(self, data):
             self._data = data
 
-        data = property(_get_data, _set_data, None, 'Data property')
+        data = property(_get_data, _set_data, None, "Data property")

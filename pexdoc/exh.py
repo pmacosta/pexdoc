@@ -1,8 +1,8 @@
 # exh.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,C0411,C0413,E0012,E0012,E0611,E1101,E1103,F0401
-# pylint: disable=R0201,R0912,R0913,R0914,R0915,W0122,W0212,W0613,W0631
+# pylint: disable=R0201,R0205,R0912,R0913,R0914,R0915,W0122,W0212,W0613,W0631
 
 # Standard library imports
 import copy
@@ -11,16 +11,18 @@ import inspect
 import itertools
 import os
 import sys
-if sys.hexversion < 0x03000000: # pragma: no cover
+
+if sys.hexversion < 0x03000000:  # pragma: no cover
     import __builtin__
-else: # pragma: no cover
+else:  # pragma: no cover
     import builtins as __builtin__
 # PyPI imports
 import decorator
+
 # Intra-package imports
-if sys.hexversion < 0x03000000: # pragma: no cover
+if sys.hexversion < 0x03000000:  # pragma: no cover
     from pexdoc.compat2 import _ex_type_str, _get_ex_msg, _get_func_code, _rwtb
-else:   # pragma: no cover
+else:  # pragma: no cover
     from pexdoc.compat3 import _ex_type_str, _get_ex_msg, _get_func_code, _rwtb
 import pexdoc.pinspect
 
@@ -28,53 +30,46 @@ import pexdoc.pinspect
 ###
 # Global variables
 ###
-_BREAK_LIST = ['_pytest']
+_BREAK_LIST = ["_pytest"]
 _INVALID_MODULES_LIST = [
-    os.path.join('pexdoc', 'exh.py'),
-    os.path.join('pexdoc', 'exdoc.py')
+    os.path.join("pexdoc", "exh.py"),
+    os.path.join("pexdoc", "exdoc.py"),
 ]
 
 ###
 # Functions
 ###
 def _build_exclusion_list(exclude):
-    """
-    Build list of file names corresponding to modules to exclude
-    from exception handling
-    """
+    """Build file names list of modules to exclude from exception handling."""
     mod_files = []
     if exclude:
         for mod in exclude:
             mdir = None
             mod_file = None
-            for token in mod.split('.'):
+            for token in mod.split("."):
                 try:
                     mfile, mdir, _ = imp.find_module(token, mdir and [mdir])
                     if mfile:
                         mod_file = mfile.name
                         mfile.close()
                 except ImportError:
-                    msg = ('Source for module {mod_name} could not be found')
+                    msg = "Source for module {mod_name} could not be found"
                     raise ValueError(msg.format(mod_name=mod))
             if mod_file:
-                mod_files.append(mod_file.replace('.pyc', '.py'))
+                mod_files.append(mod_file.replace(".pyc", ".py"))
     return mod_files
 
 
 def _invalid_frame(fobj):
-    """ Selects valid stack frame to process """
+    """Select valid stack frame to process."""
     fin = fobj.f_code.co_filename
-    invalid_module = any(
-        [fin.endswith(item) for item in _INVALID_MODULES_LIST]
-    )
+    invalid_module = any([fin.endswith(item) for item in _INVALID_MODULES_LIST])
     return invalid_module or (not os.path.isfile(fin))
 
 
-def _isiterable(obj):
-    """
-    Copied from pmisc module, not included to avoid recursive inclusion
-    of pexdoc.pcontracts module
-    """
+def _isiterable(obj):  # noqa
+    # Copied from pmisc module, not included to avoid recursive inclusion
+    # of pexdoc.pcontracts module
     try:
         iter(obj)
     except TypeError:
@@ -84,7 +79,7 @@ def _isiterable(obj):
 
 
 def _merge_cdicts(self, clut, exdict, separator):
-    """ Merge callable look-up tables from two objects """
+    """Merge callable look-up tables from two objects."""
     if not self._full_cname:
         return
     # Find all callables that are not in self exceptions dictionary
@@ -101,7 +96,7 @@ def _merge_cdicts(self, clut, exdict, separator):
     for fdict in exdict.values():
         for entry in fdict.values():
             olist = []
-            for item in entry['function']:
+            for item in entry["function"]:
                 if item is None:
                     # Callable name is None when callable is
                     # part of exclude list
@@ -110,11 +105,11 @@ def _merge_cdicts(self, clut, exdict, separator):
                     itokens = item.split(separator)
                     itokens = [repl_dict.get(itoken) for itoken in itokens]
                     olist.append(separator.join(itokens))
-            entry['function'] = olist
+            entry["function"] = olist
 
 
 def _merge_ex_dicts(sexdict, oexdict):
-    """ Merge callable look-up tables from two objects """
+    """Merge callable look-up tables from two objects."""
     # pylint: disable=R0101
     for okey, ovalue in oexdict.items():
         # Keys in other dictionary are callable paths or
@@ -138,22 +133,22 @@ def _merge_ex_dicts(sexdict, oexdict):
                     # the callable path is the same (in which case update
                     # raise flag) or not (in which case add to 'function' and
                     # 'raise' keys
-                    iobj = zip(fvalue['function'], fvalue['raised'])
+                    iobj = zip(fvalue["function"], fvalue["raised"])
                     for func, raised in iobj:
-                        if func not in sexdict[okey][fkey]['function']:
-                            sexdict[okey][fkey]['function'].append(func)
-                            sexdict[okey][fkey]['raised'].append(raised)
+                        if func not in sexdict[okey][fkey]["function"]:
+                            sexdict[okey][fkey]["function"].append(func)
+                            sexdict[okey][fkey]["raised"].append(raised)
                         else:
-                            idx = sexdict[okey][fkey]['function'].index(func)
-                            sraised = sexdict[okey][fkey]['raised'][idx]
+                            idx = sexdict[okey][fkey]["function"].index(func)
+                            sraised = sexdict[okey][fkey]["raised"][idx]
                             if sraised or raised:
-                                sexdict[okey][fkey]['raised'][idx] = True
+                                sexdict[okey][fkey]["raised"][idx] = True
         else:
             sexdict[okey] = ovalue
 
 
 def _sorted_keys_items(dobj):
-    """ dict.items() method with sorted keys """
+    """Return dictionary items sorted by key."""
     keys = sorted(dobj.keys())
     for key in keys:
         yield key, dobj[key]
@@ -161,7 +156,7 @@ def _sorted_keys_items(dobj):
 
 def addex(extype, exmsg, condition=None, edata=None):
     r"""
-    Adds an exception in the global exception handler
+    Add an exception in the global exception handler.
 
     :param extype: Exception type; *must* be derived from the `Exception
                    <https://docs.python.org/2/library/exceptions.html#
@@ -214,9 +209,11 @@ def addex(extype, exmsg, condition=None, edata=None):
 
 def addai(argname, condition=None):
     r"""
-    Adds an exception of the type :code:`RuntimeError('Argument \`*[argname]*\`
-    is not valid')` in the global exception handler where :code:`*[argname]*`
-    is the value of the **argname** argument
+    Add an "AI" exception in the global exception handler.
+
+    An "AI" exception is of the type :code:`RuntimeError('Argument
+    \`*[argname]*\` is not valid')` where :code:`*[argname]*` is the value of
+    the **argname** argument
 
     :param argname: Argument name
     :type  argname: string
@@ -235,43 +232,34 @@ def addai(argname, condition=None):
     """
     # pylint: disable=C0123
     if not isinstance(argname, str):
-        raise RuntimeError('Argument `argname` is not valid')
+        raise RuntimeError("Argument `argname` is not valid")
     if (condition is not None) and (type(condition) != bool):
-        raise RuntimeError('Argument `condition` is not valid')
-    obj = _ExObj(
-        RuntimeError,
-        'Argument `{0}` is not valid'.format(argname),
-        condition
-    )
+        raise RuntimeError("Argument `condition` is not valid")
+    obj = _ExObj(RuntimeError, "Argument `{0}` is not valid".format(argname), condition)
     return obj.craise
 
 
 def del_exh_obj():
-    """
-    Deletes global exception handler (if set)
-    """
+    """Delete global exception handler (if set)."""
     try:
-        delattr(__builtin__, '_EXH')
+        delattr(__builtin__, "_EXH")
     except AttributeError:
         pass
 
 
 def get_exh_obj():
     """
-    Returns the global exception handler
+    Return the global exception handler.
 
     :rtype: :py:class:`pexdoc.ExHandle` if global exception handler
             is set, None otherwise
     """
-    return getattr(__builtin__, '_EXH', None)
+    return getattr(__builtin__, "_EXH", None)
 
 
-def get_or_create_exh_obj(
-    full_cname=False, exclude=None, callables_fname=None
-):
-    """
-    Returns the global exception handler if it is set, otherwise creates a new
-    global exception handler and returns it
+def get_or_create_exh_obj(full_cname=False, exclude=None, callables_fname=None):
+    r"""
+    Return global exception handler if set, otherwise create a new one and return it.
 
     :param full_cname: Flag that indicates whether fully qualified
                        function/method/class property names are obtained for
@@ -308,20 +296,18 @@ def get_or_create_exh_obj(
 
      * RuntimeError (Argument \\`full_cname\\` is not valid)
     """
-    if not hasattr(__builtin__, '_EXH'):
+    if not hasattr(__builtin__, "_EXH"):
         set_exh_obj(
             ExHandle(
-                full_cname=full_cname,
-                exclude=exclude,
-                callables_fname=callables_fname
+                full_cname=full_cname, exclude=exclude, callables_fname=callables_fname
             )
         )
     return get_exh_obj()
 
 
 def set_exh_obj(obj):
-    """
-    Sets the global exception handler
+    r"""
+    Set the global exception handler.
 
     :param obj: Exception handler
     :type  obj: :py:class:`pexdoc.ExHandle`
@@ -329,8 +315,8 @@ def set_exh_obj(obj):
     :raises: RuntimeError (Argument \\`obj\\` is not valid)
     """
     if not isinstance(obj, ExHandle):
-        raise RuntimeError('Argument `obj` is not valid')
-    setattr(__builtin__, '_EXH', obj)
+        raise RuntimeError("Argument `obj` is not valid")
+    setattr(__builtin__, "_EXH", obj)
 
 
 ###
@@ -339,7 +325,7 @@ def set_exh_obj(obj):
 class _ExObj(object):
     # pylint: disable=R0903
     r"""
-    Exception object
+    Create exception object.
 
     :param extype: Exception type; *must* be derived from the `Exception
                    <https://docs.python.org/2/library/exceptions.html#
@@ -415,26 +401,27 @@ class _ExObj(object):
     _count = itertools.count(0)
 
     def __init__(
-            self, extype, exmsg, condition=None, edata=None, exclude=None,
-            callables_fname=None
+        self,
+        extype,
+        exmsg,
+        condition=None,
+        edata=None,
+        exclude=None,
+        callables_fname=None,
     ):
         super(_ExObj, self).__init__()
         self._exh = get_or_create_exh_obj(
             exclude=exclude, callables_fname=callables_fname
         )
         next(self._count)
-        self._exname = '__exobj_pid_{0}_ex{1}__'.format(
-            os.getpid(), self._count
-        )
-        self._ex_data = self._exh.add_exception(
-            self._exname, extype, exmsg
-        )
+        self._exname = "__exobj_pid_{0}_ex{1}__".format(os.getpid(), self._count)
+        self._ex_data = self._exh.add_exception(self._exname, extype, exmsg)
         if condition is not None:
             self.craise(condition, edata)
 
     def craise(self, condition, edata=None):
-        """
-        Raises exception conditionally
+        r"""
+        Raise exception conditionally.
 
         :param condition: Flag that indicates whether the exception is
                           raised *(True)* or not *(False)*
@@ -468,10 +455,7 @@ class _ExObj(object):
 
         """
         self._exh.raise_exception_if(
-            self._exname,
-            condition,
-            edata,
-            _keys=self._ex_data
+            self._exname, condition, edata, _keys=self._ex_data
         )
 
 
@@ -483,8 +467,8 @@ class _ExObj(object):
 # Setting the global exception handler to a new object makes the example
 # start with a clean global exception handler
 class ExHandle(object):
-    """
-    Exception handler
+    r"""
+    Create exception handler.
 
     :param full_cname: Flag that indicates whether fully qualified
                        function/method/class property names are obtained for
@@ -521,19 +505,21 @@ class ExHandle(object):
 
      * ValueError (Source for module *[module_name]* could not be found)
     """
+
     # pylint: disable=R0902,W0703
     def __init__(
         self, full_cname=False, exclude=None, callables_fname=None, _copy=False
-    ):
+    ):  # noqa
         if not isinstance(full_cname, bool):
-            raise RuntimeError('Argument `full_cname` is not valid')
-        if ((exclude and (not isinstance(exclude, list))) or
-           (isinstance(exclude, list) and
-           any([not isinstance(item, str) for item in exclude]))):
-            raise RuntimeError('Argument `exclude` is not valid')
+            raise RuntimeError("Argument `full_cname` is not valid")
+        if (exclude and (not isinstance(exclude, list))) or (
+            isinstance(exclude, list)
+            and any([not isinstance(item, str) for item in exclude])
+        ):
+            raise RuntimeError("Argument `exclude` is not valid")
         self._ex_dict = {}
         self._clut = {}
-        self._callables_separator = '/'
+        self._callables_separator = "/"
         self._full_cname = full_cname
         self._exclude = exclude
         self._callables_obj = None
@@ -546,7 +532,7 @@ class ExHandle(object):
 
     def __add__(self, other):
         """
-        Merges two objects.
+        Merge two objects.
 
         :raises:
          * RuntimeError (Incompatible exception handlers)
@@ -588,31 +574,27 @@ class ExHandle(object):
         """
         if not isinstance(other, ExHandle):
             stype = str(type(other))
-            offset = stype.index("'")+1
+            offset = stype.index("'") + 1
             raise TypeError(
-                'Unsupported operand type(s) for +: pexdoc.ExHandle and '+
-                stype[offset:-2]
+                "Unsupported operand type(s) for +: pexdoc.ExHandle and "
+                + stype[offset:-2]
             )
-        if ((self._full_cname != other._full_cname) or
-           (self._exclude != other._exclude)):
-            raise RuntimeError('Incompatible exception handlers')
-        robj = ExHandle(
-            full_cname=self._full_cname, exclude=self._exclude, _copy=True
-        )
+        if (self._full_cname != other._full_cname) or (self._exclude != other._exclude):
+            raise RuntimeError("Incompatible exception handlers")
+        robj = ExHandle(full_cname=self._full_cname, exclude=self._exclude, _copy=True)
         ex_dict = copy.deepcopy(other._ex_dict)
         robj._ex_dict = copy.deepcopy(self._ex_dict)
         robj._clut = copy.deepcopy(self._clut)
         _merge_cdicts(robj, other._clut, ex_dict, other._callables_separator)
         _merge_ex_dicts(robj._ex_dict, ex_dict)
-        robj._callables_obj = (
-            copy.copy(self._callables_obj)+copy.copy(other._callables_obj)
+        robj._callables_obj = copy.copy(self._callables_obj) + copy.copy(
+            other._callables_obj
         )
         return robj
 
-    def __bool__(self): # pragma: no cover
+    def __bool__(self):  # pragma: no cover
         """
-        Returns :code:`False` if exception handler does not have any exception
-        defined, :code:`True` otherwise.
+        Return :code:`False` if exception handler is empty, :code:`True` otherwise.
 
         .. note:: This method applies to Python 3.x
 
@@ -639,7 +621,9 @@ class ExHandle(object):
 
     def __copy__(self):
         """
-        Copies object. For example:
+        Copy object.
+
+        For example:
 
             >>> import copy, pexdoc
             >>> @pexdoc.contract(num=int)
@@ -653,9 +637,7 @@ class ExHandle(object):
             >>> obj1 == obj2
             True
         """
-        cobj = ExHandle(
-            full_cname=self._full_cname, exclude=self._exclude, _copy=True
-        )
+        cobj = ExHandle(full_cname=self._full_cname, exclude=self._exclude, _copy=True)
         cobj._ex_dict = copy.deepcopy(self._ex_dict)
         cobj._clut = copy.deepcopy(self._clut)
         cobj._exclude_list = self._exclude_list[:]
@@ -664,7 +646,9 @@ class ExHandle(object):
 
     def __eq__(self, other):
         """
-        Tests object equality. For example:
+        Test object equality.
+
+        For example:
 
             >>> import copy, pexdoc
             >>> @pexdoc.contract(num=int)
@@ -681,15 +665,15 @@ class ExHandle(object):
             False
         """
         return (
-            isinstance(other, ExHandle) and
-            (self._ex_dict == other._ex_dict) and
-            (self._callables_obj == other._callables_obj) and
-            (self._clut == other._clut)
+            isinstance(other, ExHandle)
+            and (self._ex_dict == other._ex_dict)
+            and (self._callables_obj == other._callables_obj)
+            and (self._clut == other._clut)
         )
 
     def __iadd__(self, other):
         """
-        Merges an object into an existing object.
+        Merge an object into an existing object.
 
         :raises:
          * RuntimeError (Incompatible exception handlers)
@@ -732,14 +716,13 @@ class ExHandle(object):
         """
         if not isinstance(other, ExHandle):
             stype = str(type(other))
-            offset = stype.index("'")+1
+            offset = stype.index("'") + 1
             raise TypeError(
-                'Unsupported operand type(s) for +: pexdoc.ExHandle and '+
-                stype[offset:-2]
+                "Unsupported operand type(s) for +: pexdoc.ExHandle and "
+                + stype[offset:-2]
             )
-        if ((self._full_cname != other._full_cname) or
-           (self._exclude != other._exclude)):
-            raise RuntimeError('Incompatible exception handlers')
+        if (self._full_cname != other._full_cname) or (self._exclude != other._exclude):
+            raise RuntimeError("Incompatible exception handlers")
         ex_dict = copy.deepcopy(other._ex_dict)
         _merge_cdicts(self, other._clut, ex_dict, other._callables_separator)
         _merge_ex_dicts(self._ex_dict, ex_dict)
@@ -748,8 +731,7 @@ class ExHandle(object):
 
     def __nonzero__(self):  # pragma: no cover
         """
-        Returns :code:`False` if exception handler does not have any exception
-        defined, :code:`True` otherwise.
+        Return :code:`False` if exception handler is empty, :code:`True` otherwise.
 
         .. note:: This method applies to Python 2.7
 
@@ -776,7 +758,8 @@ class ExHandle(object):
 
     def __str__(self):
         """
-        Returns a string with a detailed description of the object's contents.
+        Return a string with a detailed description of the object's contents.
+
         For example:
 
             >>> from __future__ import print_function
@@ -795,72 +778,62 @@ class ExHandle(object):
         for key in sorted(fex_dict):
             # Exception name and details
             rstr = []
-            extype = _ex_type_str(fex_dict[key]['type'])
-            exmsg = fex_dict[key]['msg']
-            rstr.append('Name    : {exname}'.format(exname=key))
-            rstr.append('Type    : {extype}'.format(extype=extype))
-            rstr.append('Message : {exmsg}'.format(exmsg=exmsg))
+            extype = _ex_type_str(fex_dict[key]["type"])
+            exmsg = fex_dict[key]["msg"]
+            rstr.append("Name    : {exname}".format(exname=key))
+            rstr.append("Type    : {extype}".format(extype=extype))
+            rstr.append("Message : {exmsg}".format(exmsg=exmsg))
             # Callable paths: a given callable that registers an exception
             # can be called multiple times following different calling paths,
             # so there could potentially be multiple items in the
             # self._ex_dict[key]['function'] list
-            flist = [
-                self.decode_call(item)
-                for item in fex_dict[key]['function']
-            ]
+            flist = [self.decode_call(item) for item in fex_dict[key]["function"]]
             iobj = enumerate(sorted(flist))
             for fnum, func_name in iobj:
                 rindex = flist.index(func_name)
                 rstr.append(
-                   '{callable_type}{callable_name}{rtext}'.format(
-                       callable_type='Function: ' if fnum == 0 else ' '*10,
-                       callable_name=func_name,
-                       rtext=(
-                           ' [raised]'
-                           if fex_dict[key]['raised'][rindex] else
-                           ''
-                       )
-                   )
+                    "{callable_type}{callable_name}{rtext}".format(
+                        callable_type="Function: " if fnum == 0 else " " * 10,
+                        callable_name=func_name,
+                        rtext=(" [raised]" if fex_dict[key]["raised"][rindex] else ""),
+                    )
                 )
-            ret.append('\n'.join(rstr))
-        return '\n\n'.join(ret)
+            ret.append("\n".join(rstr))
+        return "\n\n".join(ret)
 
     def _flatten_ex_dict(self):
-        """ Flatten structure of exceptions dictionary """
+        """Flatten structure of exceptions dictionary."""
         odict = {}
         for _, fdict in self._ex_dict.items():
             for (extype, exmsg), value in fdict.items():
-                key = value['name']
+                key = value["name"]
                 odict[key] = copy.deepcopy(value)
-                del odict[key]['name']
-                odict[key]['type'] = extype
-                odict[key]['msg'] = exmsg
+                del odict[key]["name"]
+                odict[key]["type"] = extype
+                odict[key]["msg"] = exmsg
         return odict
 
     def _format_msg(self, msg, edata):
-        """ Substitute parameters in exception message """
+        """Substitute parameters in exception message."""
         edata = edata if isinstance(edata, list) else [edata]
         for fdict in edata:
-            if '*[{token}]*'.format(token=fdict['field']) not in msg:
+            if "*[{token}]*".format(token=fdict["field"]) not in msg:
                 raise RuntimeError(
-                    'Field {token} not in exception message'.format(
-                        token=fdict['field']
+                    "Field {token} not in exception message".format(
+                        token=fdict["field"]
                     )
                 )
             msg = msg.replace(
-                '*[{token}]*'.format(token=fdict['field']), '{value}'
-            ).format(value=fdict['value'])
+                "*[{token}]*".format(token=fdict["field"]), "{value}"
+            ).format(value=fdict["value"])
         return msg
 
     def _get_callables_db(self):
-        """ Returns database of callables """
+        """Return database of callables."""
         return self._callables_obj.callables_db
 
     def _get_callable_full_name(self, fob, fin, uobj):
-        """
-        Get full path [module, class (if applicable) and function name]
-        of callable
-        """
+        """Get full path [module, class (if applicable), function name] of callable."""
         # Check if object is a class property
         name = self._property_search(fob)
         if name:
@@ -876,21 +849,22 @@ class ExHandle(object):
         fname = uobj and _get_func_code(uobj).co_filename
         if (not fname) or (fname and (not os.path.isfile(fname))):
             del fob, fin, uobj, name, fname
-            return 'dynamic'
+            return "dynamic"
         code_id = (
-            inspect.getfile(uobj).replace('.pyc', 'py'),
-            inspect.getsourcelines(uobj)[1]
+            inspect.getfile(uobj).replace(".pyc", "py"),
+            inspect.getsourcelines(uobj)[1],
         )
         self._callables_obj.trace([code_id[0]])
         ret = self._callables_obj.reverse_callables_db[code_id]
         del fob, fin, uobj, name, fname, code_id
         return ret
 
-    if (hasattr(sys.modules['decorator'], '__version__') and
-       (int(decorator.__version__.split('.')[0]) == 3)):   # pragma: no cover
+    if hasattr(sys.modules["decorator"], "__version__") and (
+        int(decorator.__version__.split(".")[0]) == 3
+    ):  # pragma: no cover
         # Method works with decorator 3.x series
         def _get_callable_path(self):
-            """ Get fully qualified calling function name """
+            """Get fully qualified calling function name."""
             # If full_cname is False, then the only thing that matters is to
             # return the ID of the calling function as fast as possible. If
             # full_cname is True, the full calling path has to be calculated
@@ -923,12 +897,13 @@ class ExHandle(object):
                 return callable_id, None
             tokens = frame.f_code.co_filename.split(os.sep)
             ###
-            while not any([token.startswith(item)
-                  for token in tokens for item in _BREAK_LIST]):
+            while not any(
+                [token.startswith(item) for token in tokens for item in _BREAK_LIST]
+            ):
                 # Gobble up two frames if it is a decorator. 4th stack list
                 # tuple element (index 3) indicates whether the frame
                 # corresponds to a decorator or not
-                if (fin, lin, fuc, fui) == ('<string>', 2, None, None):
+                if (fin, lin, fuc, fui) == ("<string>", 2, None, None):
                     stack.pop()
                     if stack:
                         stack[-1][3] = True
@@ -963,14 +938,15 @@ class ExHandle(object):
             num_del_items = 0
             for num, (name, prev_name, in_decorator) in iobj:
                 if in_decorator and (name == prev_name):
-                    del ret[num-num_del_items]
+                    del ret[num - num_del_items]
                     num_del_items += 1
             del uobj, frame, stack
             return callable_id, self._callables_separator.join(ret)
-    else:   # pragma: no cover
+
+    else:  # pragma: no cover
         # Method works with decorator 4.x series
         def _get_callable_path(self):
-            """ Get fully qualified calling function name """
+            """Get fully qualified calling function name."""
             # If full_cname is False, then the only thing that matters is to
             # return the ID of the calling function as fast as possible. If
             # full_cname is True, the full calling path has to be calculated
@@ -1003,8 +979,9 @@ class ExHandle(object):
                 return callable_id, None
             tokens = frame.f_code.co_filename.split(os.sep)
             ###
-            while not any([token.startswith(item)
-                  for token in tokens for item in _BREAK_LIST]):
+            while not any(
+                [token.startswith(item) for token in tokens for item in _BREAK_LIST]
+            ):
                 stack.append([frame, fin, uobj])
                 fnum += 1
                 try:
@@ -1028,7 +1005,7 @@ class ExHandle(object):
             # pcontracts decorators)
             ret = []
             skip = 0
-            dlist = ['pexdoc.pcontracts', 'pexdoc.pcontracts.contract.wrapper']
+            dlist = ["pexdoc.pcontracts", "pexdoc.pcontracts.contract.wrapper"]
             for fob, fin, uobj in stack:
                 if skip > 0:
                     skip -= 1
@@ -1042,15 +1019,12 @@ class ExHandle(object):
             return callable_id, self._callables_separator.join(ret)
 
     def _get_callables_separator(self):
-        """ Get callable separator character """
+        """Get callable separator character."""
         return self._callables_separator
 
     def _get_exceptions_db(self):
-        """
-        Returns a list of dictionaries suitable to be used with
-        ptrie module
-        """
-        template = '{extype} ({exmsg}){raised}'
+        """Return a list of dictionaries suitable to be used with ptrie module."""
+        template = "{extype} ({exmsg}){raised}"
         if not self._full_cname:
             # When full callable name is not used the calling path is
             # irrelevant and there is no function associated with an
@@ -1060,12 +1034,12 @@ class ExHandle(object):
                 for key in fdict.keys():
                     ret.append(
                         {
-                            'name':fdict[key]['name'],
-                            'data':template.format(
+                            "name": fdict[key]["name"],
+                            "data": template.format(
                                 extype=_ex_type_str(key[0]),
                                 exmsg=key[1],
-                                raised='*' if fdict[key]['raised'][0] else ''
-                            )
+                                raised="*" if fdict[key]["raised"][0] else "",
+                            ),
                         }
                     )
             return ret
@@ -1073,35 +1047,32 @@ class ExHandle(object):
         ret = []
         for fdict in self._ex_dict.values():
             for key in fdict.keys():
-                for func_name in fdict[key]['function']:
-                    rindex = fdict[key]['function'].index(func_name)
-                    raised = fdict[key]['raised'][rindex]
+                for func_name in fdict[key]["function"]:
+                    rindex = fdict[key]["function"].index(func_name)
+                    raised = fdict[key]["raised"][rindex]
                     ret.append(
                         {
-                            'name':self.decode_call(func_name),
-                            'data':template.format(
+                            "name": self.decode_call(func_name),
+                            "data": template.format(
                                 extype=_ex_type_str(key[0]),
                                 exmsg=key[1],
-                                raised='*' if raised else ''
-                            )
+                                raised="*" if raised else "",
+                            ),
                         }
                     )
         return ret
 
     def _get_ex_data(self):
-        """ Returns hierarchical function name """
+        """Return hierarchical function name."""
         func_id, func_name = self._get_callable_path()
         if self._full_cname:
             func_name = self.encode_call(func_name)
         return func_id, func_name
 
     def _property_search(self, fobj):
-        """
-        Check if object is a class property and if so return full name,
-        otherwise return None
-        """
+        """Return full name if object is a class property, otherwise return None."""
         # Get class object
-        scontext = fobj.f_locals.get('self', None)
+        scontext = fobj.f_locals.get("self", None)
         class_obj = scontext.__class__ if scontext is not None else None
         if not class_obj:
             del fobj, scontext, class_obj
@@ -1115,15 +1086,14 @@ class ExHandle(object):
         if not class_props:
             del fobj, scontext, class_obj
             return None
-        class_file = inspect.getfile(class_obj).replace('.pyc', '.py')
+        class_file = inspect.getfile(class_obj).replace(".pyc", ".py")
         class_name = self._callables_obj.get_callable_from_line(
-            class_file,
-            inspect.getsourcelines(class_obj)[1]
+            class_file, inspect.getsourcelines(class_obj)[1]
         )
         # Get properties actions
         prop_actions_dicts = {}
         for prop_name, prop_obj in class_props:
-            prop_dict = {'fdel':None, 'fget':None, 'fset':None}
+            prop_dict = {"fdel": None, "fget": None, "fset": None}
             for action in prop_dict:
                 action_obj = getattr(prop_obj, action)
                 if action_obj:
@@ -1133,62 +1103,54 @@ class ExHandle(object):
                     # match the unwrapped object
                     prev_func_obj, next_func_obj = (
                         action_obj,
-                        getattr(action_obj, '__wrapped__', None)
+                        getattr(action_obj, "__wrapped__", None),
                     )
                     while next_func_obj:
                         prev_func_obj, next_func_obj = (
                             next_func_obj,
-                            getattr(next_func_obj, '__wrapped__', None)
+                            getattr(next_func_obj, "__wrapped__", None),
                         )
                     prop_dict[action] = [
                         id(_get_func_code(action_obj)),
-                        id(_get_func_code(prev_func_obj))
+                        id(_get_func_code(prev_func_obj)),
                     ]
             prop_actions_dicts[prop_name] = prop_dict
         # Create properties directory
         func_id = id(fobj.f_code)
-        desc_dict = {
-            'fget':'getter',
-            'fset':'setter',
-            'fdel':'deleter',
-        }
+        desc_dict = {"fget": "getter", "fset": "setter", "fdel": "deleter"}
         for prop_name, prop_actions_dict in prop_actions_dicts.items():
             for action_name, action_id_list in prop_actions_dict.items():
                 if action_id_list and (func_id in action_id_list):
-                    prop_name = '.'.join([class_name, prop_name])
+                    prop_name = ".".join([class_name, prop_name])
                     del fobj, scontext, class_obj, class_props
-                    return '{prop_name}({prop_action})'.format(
-                        prop_name=prop_name,
-                        prop_action=desc_dict[action_name]
+                    return "{prop_name}({prop_action})".format(
+                        prop_name=prop_name, prop_action=desc_dict[action_name]
                     )
         return None
 
     def _raise_exception(self, eobj, edata=None):
-        """ Raise exception by name """
+        """Raise exception by name."""
         _, _, tbobj = sys.exc_info()
         if edata:
-            emsg = self._format_msg(eobj['msg'], edata)
-            _rwtb(eobj['type'], emsg, tbobj)
+            emsg = self._format_msg(eobj["msg"], edata)
+            _rwtb(eobj["type"], emsg, tbobj)
         else:
-            _rwtb(eobj['type'], eobj['msg'], tbobj)
+            _rwtb(eobj["type"], eobj["msg"], tbobj)
 
     def _unwrap_obj(self, fobj, fun):
-        """ Unwrap decorators """
+        """Unwrap decorators."""
         try:
             prev_func_obj, next_func_obj = (
                 fobj.f_globals[fun],
-                getattr(fobj.f_globals[fun], '__wrapped__', None)
+                getattr(fobj.f_globals[fun], "__wrapped__", None),
             )
             while next_func_obj:
                 prev_func_obj, next_func_obj = (
                     next_func_obj,
-                    getattr(next_func_obj, '__wrapped__', None)
+                    getattr(next_func_obj, "__wrapped__", None),
                 )
-            return (
-                prev_func_obj,
-                inspect.getfile(prev_func_obj).replace('.pyc', 'py')
-            )
-        except  (KeyError, AttributeError, TypeError):
+            return (prev_func_obj, inspect.getfile(prev_func_obj).replace(".pyc", "py"))
+        except (KeyError, AttributeError, TypeError):
             # KeyErrror: fun not in fobj.f_globals
             # AttributeError: fobj.f_globals does not have
             #                 a __wrapped__ attribute
@@ -1196,7 +1158,7 @@ class ExHandle(object):
             return None, None
 
     def _validate_edata(self, edata):
-        """ Validate edata argument of raise_exception_if method """
+        """Validate edata argument of raise_exception_if method."""
         # pylint: disable=R0916
         if edata is None:
             return True
@@ -1204,17 +1166,20 @@ class ExHandle(object):
             return False
         edata = [edata] if isinstance(edata, dict) else edata
         for edict in edata:
-            if ((not isinstance(edict, dict)) or
-               (isinstance(edict, dict) and
-               (('field' not in edict) or
-               ('field' in edict and (not isinstance(edict['field'], str))) or
-               ('value' not in edict)))):
+            if (not isinstance(edict, dict)) or (
+                isinstance(edict, dict)
+                and (
+                    ("field" not in edict)
+                    or ("field" in edict and (not isinstance(edict["field"], str)))
+                    or ("value" not in edict)
+                )
+            ):
                 return False
         return True
 
     def add_exception(self, exname, extype, exmsg):
         r"""
-        Adds an exception to the handler
+        Add an exception to the handler.
 
         :param exname: Exception name; has to be unique within the namespace,
                        duplicates are eliminated
@@ -1259,23 +1224,23 @@ class ExHandle(object):
          * RuntimeError (Argument \`extype\` is not valid)
         """
         if not isinstance(exname, str):
-            raise RuntimeError('Argument `exname` is not valid')
+            raise RuntimeError("Argument `exname` is not valid")
         number = True
         try:
             int(exname)
         except ValueError:
             number = False
         if number:
-            raise RuntimeError('Argument `exname` is not valid')
+            raise RuntimeError("Argument `exname` is not valid")
         if not isinstance(exmsg, str):
-            raise RuntimeError('Argument `exmsg` is not valid')
-        msg = ''
+            raise RuntimeError("Argument `exmsg` is not valid")
+        msg = ""
         try:
             raise extype(exmsg)
         except Exception as eobj:
             msg = _get_ex_msg(eobj)
         if msg != exmsg:
-            raise RuntimeError('Argument `extype` is not valid')
+            raise RuntimeError("Argument `extype` is not valid")
         # A callable that defines an exception can be accessed by
         # multiple functions or paths, therefore the callable
         # dictionary key 'function' is a list
@@ -1283,19 +1248,19 @@ class ExHandle(object):
         if func_id not in self._ex_dict:
             self._ex_dict[func_id] = {}
         key = (extype, exmsg)
-        exname = '{0}{1}{2}'.format(func_id, self._callables_separator, exname)
+        exname = "{0}{1}{2}".format(func_id, self._callables_separator, exname)
         entry = self._ex_dict[func_id].get(
-            key, {'function':[], 'name':exname, 'raised':[]}
+            key, {"function": [], "name": exname, "raised": []}
         )
-        if func_name not in entry['function']:
-            entry['function'].append(func_name)
-            entry['raised'].append(False)
+        if func_name not in entry["function"]:
+            entry["function"].append(func_name)
+            entry["raised"].append(False)
         self._ex_dict[func_id][key] = entry
         return (func_id, key, func_name)
 
     def decode_call(self, call):
         """
-        Replaces callable tokens with callable names
+        Replace callable tokens with callable names.
 
         :param call: Encoded callable  name
         :type  call: string
@@ -1310,14 +1275,13 @@ class ExHandle(object):
         for key, value in self._clut.items():
             if value in itokens:
                 odict[itokens[itokens.index(value)]] = key
-        return self._callables_separator.join(
-            [odict[itoken] for itoken in itokens]
-        )
+        return self._callables_separator.join([odict[itoken] for itoken in itokens])
 
     def encode_call(self, call):
         """
-        Replaces callables with tokens to reduce object memory footprint. A
-        callable token is an integer that denotes the order in which the
+        Replace callables with tokens to reduce object memory footprint.
+
+        A callable token is an integer that denotes the order in which the
         callable was encountered by the encoder, i.e. the first callable
         encoded is assigned token 0, the second callable encoded is assigned
         token 1, etc.
@@ -1341,8 +1305,8 @@ class ExHandle(object):
         return self._callables_separator.join(otokens)
 
     def raise_exception_if(self, exname, condition, edata=None, _keys=None):
-        """
-        Raises exception conditionally
+        r"""
+        Raise exception conditionally.
 
         :param exname: Exception name
         :type  exname: string
@@ -1382,36 +1346,33 @@ class ExHandle(object):
         # second exception look-up since the _ExObj class can save the
         # call dictionary
         if not isinstance(condition, bool):
-            raise RuntimeError('Argument `condition` is not valid')
+            raise RuntimeError("Argument `condition` is not valid")
         if not self._validate_edata(edata):
-            raise RuntimeError('Argument `edata` is not valid')
+            raise RuntimeError("Argument `edata` is not valid")
         if _keys is None:
             if not isinstance(exname, str):
-                raise RuntimeError('Argument `exname` is not valid')
+                raise RuntimeError("Argument `exname` is not valid")
             # Find exception object
             func_id, func_name = self._get_ex_data()
-            name = '{0}{1}{2}'.format(
-                func_id, self._callables_separator, exname
-            )
+            name = "{0}{1}{2}".format(func_id, self._callables_separator, exname)
             for key, value in self._ex_dict[func_id].items():
-                if value['name'] == name:
+                if value["name"] == name:
                     break
             else:
                 raise ValueError(
-                    'Exception name {exname} not found'.format(exname=exname)
+                    "Exception name {exname} not found".format(exname=exname)
                 )
             _keys = (func_id, key, func_name)
         eobj = self._ex_dict[_keys[0]][_keys[1]]
         if condition:
-            eobj['raised'][eobj['function'].index(_keys[2])] = True
-            self._raise_exception(
-                {'type':_keys[1][0], 'msg':_keys[1][1]}, edata
-            )
+            eobj["raised"][eobj["function"].index(_keys[2])] = True
+            self._raise_exception({"type": _keys[1][0], "msg": _keys[1][1]}, edata)
 
     def save_callables(self, callables_fname):
-        """
-        Saves traced modules information to a `JSON <http://www.json.org>`_
-        file. If the file exists it is overwritten
+        r"""
+        Save traced modules information to a `JSON <http://www.json.org>`_ file.
+
+        If the file exists it is overwritten
 
         :param callables_fname: File name
         :type  callables_fname: :ref:`FileName`
@@ -1421,24 +1382,24 @@ class ExHandle(object):
         self._callables_obj.save(callables_fname)
 
     # Managed attributes
-    callables_db = property(_get_callables_db, doc='Dictionary of callables')
+    callables_db = property(_get_callables_db, doc="Dictionary of callables")
     """
-    Returns the callables database of the modules using the exception handler,
+    Return the callables database of the modules using the exception handler,
     as reported by :py:meth:`pexdoc.pinspect.Callables.callables_db`
     """
 
     callables_separator = property(
-        _get_callables_separator, doc='Callable separator character'
+        _get_callables_separator, doc="Callable separator character"
     )
     """
-    Returns the character (:code:`'/'`) used to separate the sub-parts of fully
+    Return the character (:code:`'/'`) used to separate the sub-parts of fully
     qualified function names in :py:meth:`pexdoc.ExHandle.callables_db` and
     **name** key in :py:meth:`pexdoc.ExHandle.exceptions_db`
     """
 
-    exceptions_db = property(_get_exceptions_db, doc='Formatted exceptions')
+    exceptions_db = property(_get_exceptions_db, doc="Formatted exceptions")
     """
-    Returns the exceptions database. This database is a list of dictionaries
+    Return the exceptions database. This database is a list of dictionaries
     that contain the following keys:
 
      * **name** *(string)* -- Exception name of the form

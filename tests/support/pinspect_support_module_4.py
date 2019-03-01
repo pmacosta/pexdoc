@@ -1,5 +1,5 @@
 # pinspect_support_module_4.py
-# Copyright (c) 2013-2018 Pablo Acosta-Serafini
+# Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
 # pylint: disable=C0111,W0212
 
@@ -13,12 +13,12 @@ USAGE2 = r"""
 
 USAGE3 = r""" This is a test of a single-line string """
 
-def another_property_action_enclosing_function():
-    """
-    Generator function to test namespace support for enclosed class properties
-    """
+
+def another_property_action_enclosing_function():  # noqa: D401
+    """Generator function to test namespace support for enclosed class properties."""
     # pylint: disable=C0103,E0602
     def fget(self):
-        """ Actual getter function """
+        """Actual getter function."""
         return math.sqrt(self._value)
+
     return property(fget)
