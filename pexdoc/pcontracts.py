@@ -14,7 +14,11 @@ import sys
 if os.environ.get("READTHEDOCS", False) != "True":  # pragma: no branch
     # The PyContracts module imports numpy, which is not allowed in
     # the ReadTheDocs environment
-    import contracts
+    import warnings
+
+    with warnings.catch_warnings():
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        import contracts
 import decorator
 
 try:  # pragma: no cover

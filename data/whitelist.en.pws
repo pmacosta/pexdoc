@@ -1,4 +1,4 @@
-personal_ws-1.1 en 1779 utf-8
+personal_ws-1.1 en 1781 utf-8
 9b0
 a4paper
 aa
@@ -312,6 +312,7 @@ delims
 delitem
 dep
 DEP
+DeprecationWarning
 deps
 DEPS
 der
@@ -509,6 +510,7 @@ FileName
 FileNameExists
 filenames
 fillvalue
+filterwarnings
 FinalClass
 finterp
 firstmod
