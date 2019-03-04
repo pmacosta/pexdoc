@@ -11,7 +11,7 @@ USAGE2 = r"""
     This is a test
     of a raw multi-line string """
 
-USAGE3 = r""" This is a test of a single-line string """
+USAGE3 = r"""This is a test of a single-line string"""
 
 
 def another_property_action_enclosing_function():  # noqa: D401

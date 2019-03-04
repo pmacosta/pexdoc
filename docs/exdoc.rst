@@ -54,7 +54,7 @@ And the actual module ``my_module`` code is (before auto-documentation):
 .. literalinclude:: ./support/my_module.py
     :language: python
     :tab-width: 4
-    :lines: 1,7,9-
+    :lines: 1-12,16-
 
 A simple shell script can be written to automate the cogging of the
 ``my_module.py`` file:
@@ -70,7 +70,7 @@ a `reStructuredText`_ marked-up ``:raises:`` section:
 .. literalinclude:: ./support/my_module_ref.py
     :language: python
     :tab-width: 4
-    :lines: 1,7,9-
+    :lines: 1-12,16-
 
 .. warning:: Due to the limited introspection capabilities of class properties,
 	     only properties defined using the `property

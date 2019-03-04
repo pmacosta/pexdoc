@@ -7,7 +7,7 @@
 ###
 # Global variables
 ###
-VERSION_INFO = (1, 1, 0, "final", 0)
+VERSION_INFO = (1, 1, 1, "final", 0)
 SUPPORTED_INTERPS = ["2.7", "3.5", "3.6", "3.7"]
 COPYRIGHT_START = 2013
 PKG_DESC = "Automatically generate exceptions documentation in reStructuredText"

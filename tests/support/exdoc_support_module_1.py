@@ -210,7 +210,7 @@ class ExceptionAutoDocClass(object):
     """
 
     value2 = property(lambda self: self._value2 + 10, _set_value2)
-    """ This is the docstring for the property value2 (single line) """
+    """This is the docstring for the property value2 (single line)"""
 
     value3 = property(_get_value3, _set_value3, _del_value3)
 

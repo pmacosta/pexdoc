@@ -46,7 +46,7 @@ else:
     # is-it-possible-to-call-exec-so-that-its-compatible-with-
     # both-python-3-and-pytho
     # "OK, this is pretty gross. In Py2, exec was a statement, but that will
-    # be a syntax error if we try to put it in a Py3 file, even if it isn't
+    # be a syntax error if we try to put it in a Py3 file, even if it is not
     # executed.  So hide it inside an evaluated string literal instead."
     eval(
         compile(

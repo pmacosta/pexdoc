@@ -35,12 +35,12 @@ attached to). For example, the definitions of the custom contracts
 .. literalinclude:: ./support/ptypes.py
     :language: python
     :tab-width: 4
-    :lines: 53-81
+    :lines: 50-76
 
 .. literalinclude:: ./support/ptypes.py
     :language: python
     :tab-width: 4
-    :lines: 84-123
+    :lines: 79-115
 
 This is nearly identical to the way custom contracts are defined using the
 `PyContracts <https://andreacensi.github.io/contracts/>`_ library with two
