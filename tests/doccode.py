@@ -10,6 +10,7 @@ import subprocess
 import sys
 
 # PyPI imports
+from cogapp import Cog
 import pmisc
 from pmisc import AE
 
@@ -91,21 +92,7 @@ def test_exdoc_doccode():  # noqa: D202
     output_file = os.path.join(script_dir, "my_module_out.py")
     with pmisc.ignored(OSError):
         os.remove(output_file)
-    bin_dir = os.environ["BIN_DIR"]
-    proc = subprocess.Popen(
-        [
-            "python",
-            os.path.join(bin_dir, "cog.py"),
-            "-e",
-            "-o",
-            output_file,
-            input_file,
-        ],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT,
-    )
-    stdout, _ = proc.communicate()
-    retcode = proc.returncode
+    retcode = Cog().main(["cog.py", "-e", "-o", output_file, input_file])
     if retcode:
         print(stdout)
         raise RuntimeError("Tracing did not complete successfully")
