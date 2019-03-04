@@ -46,12 +46,12 @@ gives:
 	   docs.support.pinspect_example_1
 	Classes:
 	   docs.support.pinspect_example_1.my_func.MyClass
-	docs.support.pinspect_example_1.my_func: func (9-25)
-	docs.support.pinspect_example_1.my_func.MyClass: class (11-25)
-	docs.support.pinspect_example_1.my_func.MyClass.__init__: meth (18-20)
-	docs.support.pinspect_example_1.my_func.MyClass._get_value: meth (21-23)
-	docs.support.pinspect_example_1.my_func.MyClass.value: prop (24-25)
-	docs.support.pinspect_example_1.print_name: func (26-27)
+	docs.support.pinspect_example_1.my_func: func (10-29)
+	docs.support.pinspect_example_1.my_func.MyClass: class (13-29)
+	docs.support.pinspect_example_1.my_func.MyClass.__init__: meth (21-23)
+	docs.support.pinspect_example_1.my_func.MyClass._get_value: meth (24-26)
+	docs.support.pinspect_example_1.my_func.MyClass.value: prop (27-29)
+	docs.support.pinspect_example_1.print_name: func (30-31)
 
 The numbers in parenthesis indicate the line number in which the callable
 starts and ends within the file it is defined in.
