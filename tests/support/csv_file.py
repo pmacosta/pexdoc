@@ -15,7 +15,7 @@ exobj = trace_ex_pcsv_csv_file.trace_module(no_print=True)
 # csv_file.py
 # Copyright (c) 2013-2019 Pablo Acosta-Serafini
 # See LICENSE for details
-# pylint: disable=C0111,C0411,R0201,R0205,R0916,W0105,W0611
+# pylint: disable=C0111,C0411,R0201,R0205,R0912,R0916,W0105,W0611
 
 # Standard library imports
 import csv

@@ -166,9 +166,9 @@ Contributing
 
     * `Mock`_ (2.0.0 or newer)
 
-    * `Pmisc`_ (1.5.4 or newer)
+    * `Pmisc`_ (1.5.5 or newer)
 
-    * `Ptrie`_ (1.1.1 or newer)
+    * `Ptrie`_ (1.1.3 or newer)
 
     * `Py.test`_ (3.3.2 or newer)
 
@@ -178,7 +178,7 @@ Contributing
 
     * `Pytest-coverage`_ (2.5.1 or newer)
 
-    * `Pytest-pmisc`_ (1.0.3 or newer)
+    * `Pytest-pmisc`_ (1.0.6 or newer)
 
     * `Pytest-xdist`_ (optional, 1.22.0 or newer)
 

@@ -140,7 +140,7 @@
 		"optional":false,
 		"url":"http://pmisc.readthedocs.org",
 		"cat":["main", "rtd"],
-		"ver":">=1.5.4",
+		"ver":">=1.5.5",
 		"pos":17
 	},
 	"ptrie":{
@@ -148,7 +148,7 @@
 		"optional":false,
 		"url":"http://ptrie.readthedocs.org",
 		"cat":["main", "rtd"],
-		"ver":">=1.1.1",
+		"ver":">=1.1.3",
 		"pos":18
 	},
 	"pytest-pmisc":{
@@ -156,7 +156,7 @@
 		"optional":false,
 		"url":"http://pytest-pmisc.readthedocs.org",
 		"cat":["tests"],
-		"ver":">=1.0.3",
+		"ver":">=1.0.6",
 		"pos":19
 	},
 	"sphinxcontrib-shellcheck":{
