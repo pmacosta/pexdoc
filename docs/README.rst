@@ -61,6 +61,7 @@ Description
 .. _Pmisc: http://pmisc.readthedocs.org
 .. _Ptrie: http://ptrie.readthedocs.org
 .. _PyContracts: https://andreacensi.github.io/contracts
+.. _Pydocstyle: http://www.pydocstyle.org
 .. _Pylint: https://www.pylint.org
 .. _Py.test: http://pytest.org
 .. _Pytest-coverage: https://pypi.org/project/pytest-cov
@@ -70,8 +71,8 @@ Description
 .. _ReadTheDocs Sphinx theme: https://github.com/rtfd/sphinx_rtd_theme
 .. _Inline Syntax Highlight Sphinx Extension:
    https://bitbucket.org/klorenz/sphinxcontrib-inlinesyntaxhighlight
-.. _Shellcheck Linter Sphinx Extension:
-   https://pypi.org/project/sphinxcontrib-shellcheck
+.. _Shellcheck Linter Sphinx Extension: https://pypi.org/project
+   /sphinxcontrib-shellcheck
 .. _Tox: https://testrun.org/tox
 .. _Virtualenv: https://docs.python-guide.org/dev/virtualenvs
 .. [[[end]]]
@@ -173,6 +174,8 @@ Contributing
     * `Py.test`_ (3.3.2 or newer)
 
     * `PyContracts`_ (1.8.2 or newer)
+
+    * `Pydocstyle`_ (3.0.0 or newer)
 
     * `Pylint`_ (1.8.1 or newer)
 
