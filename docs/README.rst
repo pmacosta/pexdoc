@@ -77,8 +77,10 @@
 .. cog.outl("")
 .. cog.outl("")
 .. for paragraph in PKG_LONG_DESC.split(os.linesep):
-..     wrap(paragraph)
-..     cog.outl("")
+..     if paragraph.strip():
+..         wrap(paragraph)
+..     else:
+..         cog.outl("")
 .. cog.outl("Interpreter")
 .. cog.outl("===========")
 .. cog.outl("")
@@ -355,16 +357,17 @@ Description
 .. _ReadTheDocs Sphinx theme: https://github.com/rtfd/sphinx_rtd_theme
 .. _Inline Syntax Highlight Sphinx Extension:
    https://bitbucket.org/klorenz/sphinxcontrib-inlinesyntaxhighlight
-.. _Shellcheck Linter Sphinx Extension: https://pypi.org/project
-   /sphinxcontrib-shellcheck
+.. _Shellcheck Linter Sphinx Extension:
+   https://pypi.org/project/sphinxcontrib-shellcheck
 .. _Tox: https://testrun.org/tox
 .. _Virtualenv: https://docs.python-guide.org/dev/virtualenvs
 
 This package provides a light framework that can be used to automatically
 generate exceptions documentation marked up in `reStructuredText
-<http://docutils.sourceforge.net/rst.html>`_. The exdoc module details how to
-register exceptions, how to traced them and how to generate their
-documentation
+<http://docutils.sourceforge.net/rst.html>`_.
+
+The exdoc module details how to register exceptions, how to traced them and
+how to generate their documentation
 
 Interpreter
 ===========

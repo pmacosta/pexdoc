@@ -5,6 +5,8 @@
 Changelog
 =========
 
+* 1.1.3 [2019-03-21]: Dependency update
+
 * 1.1.2 [2019-03-21]: Documentation and dependency update
 
 * 1.1.1 [2019-03-04]: Updated package management framework

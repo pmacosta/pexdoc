@@ -63,16 +63,17 @@ Description
 .. _ReadTheDocs Sphinx theme: https://github.com/rtfd/sphinx_rtd_theme
 .. _Inline Syntax Highlight Sphinx Extension:
    https://bitbucket.org/klorenz/sphinxcontrib-inlinesyntaxhighlight
-.. _Shellcheck Linter Sphinx Extension: https://pypi.org/project
-   /sphinxcontrib-shellcheck
+.. _Shellcheck Linter Sphinx Extension:
+   https://pypi.org/project/sphinxcontrib-shellcheck
 .. _Tox: https://testrun.org/tox
 .. _Virtualenv: https://docs.python-guide.org/dev/virtualenvs
 
 This package provides a light framework that can be used to automatically
 generate exceptions documentation marked up in `reStructuredText
-<http://docutils.sourceforge.net/rst.html>`_. The exdoc module details how to
-register exceptions, how to traced them and how to generate their
-documentation
+<http://docutils.sourceforge.net/rst.html>`_.
+
+The exdoc module details how to register exceptions, how to traced them and
+how to generate their documentation
 
 Interpreter
 ===========
@@ -138,7 +139,6 @@ Contributing
 
 5. Install the dependencies (if needed, done automatically by pip):
 
-
     * `Cog`_ (2.5.1 or newer)
 
     * `Coverage`_ (4.5.3 or newer)
@@ -155,7 +155,7 @@ Contributing
 
     * `Pmisc`_ (1.5.8 or newer)
 
-    * `Ptrie`_ (1.1.5 or newer)
+    * `Ptrie`_ (1.1.6 or newer)
 
     * `Py.test`_ (4.3.1 or newer)
 
@@ -234,7 +234,7 @@ Contributing
 
        $ PKG_NAME=pexdoc tox -e py27-pkg -- -n 4
        GLOB sdist-make: .../pexdoc/setup.py
-       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.1.zip
+       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.2.zip
        ...
          py27-pkg: commands succeeded
          congratulations :)
@@ -269,7 +269,7 @@ Contributing
 
        $ PKG_NAME=pexdoc tox -e py27-test -- -x test_pexdoc.py
        GLOB sdist-make: .../pexdoc/setup.py
-       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.1.zip
+       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.2.zip
        ...
          py27-pkg: commands succeeded
          congratulations :)
@@ -289,7 +289,6 @@ Contributing
 9. Document the new feature or bug fix (if needed). The script
    :bash:`${PEXDOC_DIR}/pypkg/build_docs.py` re-builds the whole package
    documentation (re-generates images, cogs source files, etc.):
-
 
    .. code-block:: console
 
@@ -328,7 +327,6 @@ Contributing
 .. [#f3] Tox configuration largely inspired by
    `Ionel's codelog <https://blog.ionelmc.ro/2015/04/14/
    tox-tricks-and-patterns/>`_
-
 
 License
 =======
