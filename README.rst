@@ -234,7 +234,7 @@ Contributing
 
        $ PKG_NAME=pexdoc tox -e py27-pkg -- -n 4
        GLOB sdist-make: .../pexdoc/setup.py
-       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.2.zip
+       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.4.zip
        ...
          py27-pkg: commands succeeded
          congratulations :)
@@ -269,7 +269,7 @@ Contributing
 
        $ PKG_NAME=pexdoc tox -e py27-test -- -x test_pexdoc.py
        GLOB sdist-make: .../pexdoc/setup.py
-       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.2.zip
+       py27-pkg inst-nodeps: .../pexdoc/.tox/.tmp/package/1/pexdoc-1.1.4.zip
        ...
          py27-pkg: commands succeeded
          congratulations :)
