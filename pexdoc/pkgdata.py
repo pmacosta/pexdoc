@@ -7,11 +7,20 @@
 ###
 # Global variables
 ###
-VERSION_INFO = (1, 1, 1, "final", 0)
+VERSION_INFO = (1, 1, 2, "final", 0)
 SUPPORTED_INTERPS = ["2.7", "3.5", "3.6", "3.7"]
 COPYRIGHT_START = 2013
 PKG_DESC = "Automatically generate exceptions documentation in reStructuredText"
 COV_EXCLUDE_FILES = ["{PKG_NAME}/pit.py"]
+PKG_LONG_DESC = (
+    "This package provides a light framework that can be used to automatically "
+    "generate exceptions documentation marked up in "
+    "`reStructuredText <http://docutils.sourceforge.net/rst.html>`_. "
+    ""
+    "The exdoc module details how to register exceptions, how to "
+    "traced them and how to generate their documentation"
+)
+PKG_PIPELINE_ID = 5
 
 ###
 # Functions

@@ -5,6 +5,8 @@
 Changelog
 =========
 
+* 1.1.2 [2019-03-21]: Documentation and dependency update
+
 * 1.1.1 [2019-03-04]: Updated package management framework
 
 * 1.1.0 [2018-01-19]: Dropped support for Python interpreter versions 2.6, 3.3
